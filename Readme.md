@@ -1,0 +1,1 @@
+Easy closed form, inverse kinematics for spherical wrist robots based on the paper: `An Analytical Solution of the Inverse Kinematics Problem of Industrial Serial Manipulators with an Ortho-parallel Basis and a Spherical Wrist`

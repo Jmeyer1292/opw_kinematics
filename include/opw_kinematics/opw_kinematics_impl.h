@@ -46,9 +46,6 @@ void inverse(const Parameters<T>& params, const Eigen::Affine3d& pose, T* out)
   double tmp9 = 2 * params.c2 * std::sqrt(kappa_2);
   double theta3_i = std::acos(tmp7 / tmp9) - atan2(params.a2, params.c3);
 
-  double theta3i = acos( (s1_2 - c2_2 - kappa_2) / (2*params.c2*std::sqrt(kappa_2)) ) - atan2(params.a2, params.c3);
-
-
   double theta3_ii = -std::acos(tmp7 / tmp9) - atan2(params.a2, params.c3);
 
   double theta3_iii = std::acos(tmp8 / tmp9) - atan2(params.a2, params.c3);

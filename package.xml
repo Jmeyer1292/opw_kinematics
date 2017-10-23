@@ -1,8 +1,13 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>opw_kinematics</name>
-  <version>0.0.0</version>
-  <description>The opw_kinematics package</description>
+  <version>0.1.0</version>
+  <description>
+    A simple, analytical inverse kinematic library for industrial robots with parallel bases and
+    spherical wrists. Based on the paper "An Analytical Solution of the Inverse Kinematics Problem
+    of Industrial Serial Manipulators with an Ortho-parallel Basis and a Spherical Wrist" by
+    Mathias Brandstötter, Arthur Angerer, and Michael Hofbaur.
+  </description>
 
   <maintainer email="jmeyer@swri.org">Jon Meyer</maintainer>
   <author email="jmeyer@swri.org">Jon Meyer</author>

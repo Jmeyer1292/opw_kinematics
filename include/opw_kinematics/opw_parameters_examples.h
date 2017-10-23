@@ -9,20 +9,20 @@ namespace opw_kinematics
 template <typename T>
 Parameters<T> makeIrb2400_10()
 {
-  return {T(.100), T(-0.135), T(0), T(.615), T(.705), T(.755), T(.085)};
+  Parameters<T> p;
+  p.a1 = T(0.100);
+  p.a2 = T(-0.135);
+  p.b =  T(0.000);
+  p.c1 = T(0.615);
+  p.c2 = T(0.705);
+  p.c3 = T(0.755);
+  p.c4 = T(0.085);
+
+  p.offsets[2] = -M_PI / 2.0;
+
+  return p;
 }
 
-template <typename T>
-Parameters<T> makeFanucR2000iB_200R()
-{
-  return {T(.720), T(-0.225), T(0), T(.600), T(1.075), T(1.280), T(0.235)};
-}
-
-template <typename T>
-Parameters<T> makeKukaKR6R700sixx()
-{
-  return {T(.025), T(-0.035), T(0), T(.400), T(0.315), T(0.365), T(0.080)};
-}
 
 
 } // ns opw_kinematics

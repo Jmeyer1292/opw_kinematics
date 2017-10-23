@@ -15,7 +15,7 @@ namespace opw_kinematics
  * @param out
  */
 template <typename T>
-void inverse(const Eigen::Affine3d& pose, const Parameters<T>& params, T* out);
+void inverse(const Parameters<T>& params, const Eigen::Affine3d& pose, T* out);
 
 
 /**

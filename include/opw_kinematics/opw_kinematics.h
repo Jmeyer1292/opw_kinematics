@@ -9,6 +9,13 @@ namespace opw_kinematics
 {
 
 /**
+ * Typedef equivalent to Eigen::Affine3d for T = double and Eigen::Affine3f for
+ * T = float.
+ */
+template <typename T>
+using Transform = Eigen::Transform<T, 3, Eigen::Affine>;
+
+/**
  * @brief Computes up to 8 kinematically unique joint solutions that put the tool
  *        flange of the robot described by @e params at the pose given by @e pose.
  *        Results are stored in @e out, a 6x8 array of T. See out's description
@@ -23,7 +30,7 @@ namespace opw_kinematics
  *            configuraton each time.
  */
 template <typename T>
-void inverse(const Parameters<T>& params, const Eigen::Affine3d& pose, T* out);
+void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out);
 
 /**
  * @brief Computes the tool pose of the robot described by @e when said robot
@@ -33,7 +40,7 @@ void inverse(const Parameters<T>& params, const Eigen::Affine3d& pose, T* out);
  * @return The flange pose.
  */
 template <typename T>
-Eigen::Affine3d forward(const Parameters<T>& p, const T* qs);
+Transform<T> forward(const Parameters<T>& p, const T* qs);
 
 #include "opw_kinematics/opw_kinematics_impl.h"
 

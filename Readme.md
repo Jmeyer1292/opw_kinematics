@@ -59,8 +59,8 @@ int main()
   pose.translation() = Eigen::Vector3d(1.3, 0.2, 0);
 
   // Up to 8 solutions exist
-  // Currently NaN indicates a solution did not exist
-  std::array<double, 6 * 8> sols;
+  // NaN indicates a solution did not exist
+  std::array<double, 6 * 8> sols; // You could also use a std::vector or c-array of the appropriate size (6*8)
   opw_kinematics::inverse(abb2400, pose, sols.data());
 
   // Forward kinematics

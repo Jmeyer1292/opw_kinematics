@@ -1,4 +1,5 @@
 #include "opw_kinematics/opw_kinematics.h"
+#include "opw_kinematics/opw_utilities.h"
 #include "opw_kinematics/opw_parameters_examples.h"
 #include "opw_kinematics/opw_io.h"
 

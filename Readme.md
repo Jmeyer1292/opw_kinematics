@@ -49,6 +49,7 @@ You can find other examples (many un-tested) taken from the source paper in `inc
 ```c++
 
 #include "opw_kinematics/opw_kinematics.h"
+#include "opw_kinematics/opw_parameters_examples.h" // for makeIrb2400_10<double>()
 #include "opw_kinematics/opw_utilities.h" // for optional checking
 #include <array>
 

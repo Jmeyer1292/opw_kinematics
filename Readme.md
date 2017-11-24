@@ -42,6 +42,8 @@ For example, the ABB IRB2400 has the following values:
 
 Note that the offset of the third joint is -90 degrees, bringing the joint from the upright position to parallel with the ground at "zero".
 
+You can find other examples (many un-tested) taken from the source paper in `include/opw_kinematics/opw_parameters_examples.h`.
+
 # Example
 
 ```c++

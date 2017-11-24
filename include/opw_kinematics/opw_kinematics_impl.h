@@ -195,8 +195,6 @@ Eigen::Affine3d forward(const Parameters<T>& p, const T* qs)
   q[4] = qs[4] - p.offsets[4];
   q[5] = qs[5] - p.offsets[5];
 
-  Eigen::Affine3d i;
-  auto& m = i.matrix();
 
   double psi3 = atan2(p.a2, p.c3);
   double k = sqrt(p.a2 * p.a2 + p.c3 * p.c3);
@@ -253,6 +251,7 @@ Eigen::Affine3d forward(const Parameters<T>& p, const T* qs)
 
   auto u = Eigen::Vector3d(cx0, cy0, cz0) + p.c4 * r_oe * Eigen::Vector3d::UnitZ();
 
+  Eigen::Affine3d i;
   i.translation() = u;
   i.linear() = r_oe;
 

@@ -3,6 +3,7 @@
 
 #include <Eigen/Dense>
 #include "opw_kinematics/opw_parameters.h"
+#include "opw_kinematics/opw_utilities.h"
 
 namespace opw_kinematics
 {

@@ -20,15 +20,23 @@ int main()
   const auto abb2400 = opw_kinematics::makeIrb2400_10<double>();
 
   Eigen::Affine3d pose = Eigen::Affine3d::Identity();
-  pose.translation() = Eigen::Vector3d(1.3, 0.2, 0);
+  pose.translation() = Eigen::Vector3d(0.7, 0.2, 0);
 
   std::array<double, 6 * 8> sols;
   opw_kinematics::inverse(abb2400, pose, sols.data());
+
+  opw_kinematics::isValid(sols.data());
+
+  for (int i = 0; i < 8; ++i)
+  {
+    opw_kinematics::harmonizeTowardZero(&sols[i * 6]);
+  }
 
   printResults(sols);
 
   for (int i = 0; i < 8; ++i)
   {
+    std::cout << i << ": " << opw_kinematics::isValid(&sols[i * 6]) << "\n";
     std::cout << i << ":\n" << opw_kinematics::forward(abb2400, &sols[i * 6]).matrix() << "\n";
   }
 

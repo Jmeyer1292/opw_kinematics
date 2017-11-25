@@ -12,7 +12,7 @@
   <maintainer email="jmeyer@swri.org">Jon Meyer</maintainer>
   <author email="jmeyer@swri.org">Jon Meyer</author>
 
-  <license>Apache 2.0</license>
+  <license>GPLv3</license>
 
   <buildtool_depend>catkin</buildtool_depend>
 

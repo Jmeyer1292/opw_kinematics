@@ -61,3 +61,12 @@ endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+# add a ros node to run the kuka_kr6_test
+# I don't know a better way to get a clean test output in the terminal
+add_executable(${PROJECT_NAME}_kuka_kr6_test test/kuka_kr6_test.cpp)
+set_target_properties(${PROJECT_NAME}_kuka_kr6_test PROPERTIES OUTPUT_NAME kuka_kr6_test PREFIX "")
+target_link_libraries(${PROJECT_NAME}_kuka_kr6_test
+ gtest
+ ${catkin_LIBRARIES}
+)

@@ -129,61 +129,61 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out)
   T theta6_vii = theta6_iii - M_PI;
   T theta6_viii = theta6_iv - M_PI;
 
-  out[6 * 0 + 0] = theta1_i + params.offsets[0];
-  out[6 * 0 + 1] = theta2_i + params.offsets[1];
-  out[6 * 0 + 2] = theta3_i + params.offsets[2];
-  out[6 * 0 + 3] = theta4_i + params.offsets[3];
-  out[6 * 0 + 4] = theta5_i + params.offsets[4];
-  out[6 * 0 + 5] = theta6_i + params.offsets[5];
+  out[6 * 0 + 0] = (theta1_i + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 0 + 1] = (theta2_i + params.offsets[1]) * params.sign_corrections[1];
+  out[6 * 0 + 2] = (theta3_i + params.offsets[2]) * params.sign_corrections[2];
+  out[6 * 0 + 3] = (theta4_i + params.offsets[3]) * params.sign_corrections[3];
+  out[6 * 0 + 4] = (theta5_i + params.offsets[4]) * params.sign_corrections[4];
+  out[6 * 0 + 5] = (theta6_i + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 1 + 0] = theta1_i + params.offsets[0];
-  out[6 * 1 + 1] = theta2_ii + params.offsets[1];
-  out[6 * 1 + 2] = theta3_ii + params.offsets[2];
-  out[6 * 1 + 3] = theta4_ii + params.offsets[3];
-  out[6 * 1 + 4] = theta5_ii + params.offsets[4];
-  out[6 * 1 + 5] = theta6_ii + params.offsets[5];
+  out[6 * 1 + 0] = (theta1_i  + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 1 + 1] = (theta2_ii + params.offsets[1]) * params.sign_corrections[1];
+  out[6 * 1 + 2] = (theta3_ii + params.offsets[2]) * params.sign_corrections[2];
+  out[6 * 1 + 3] = (theta4_ii + params.offsets[3]) * params.sign_corrections[3];
+  out[6 * 1 + 4] = (theta5_ii + params.offsets[4]) * params.sign_corrections[4];
+  out[6 * 1 + 5] = (theta6_ii + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 2 + 0] = theta1_ii + params.offsets[0];
-  out[6 * 2 + 1] = theta2_iii + params.offsets[1];
-  out[6 * 2 + 2] = theta3_iii + params.offsets[2];
-  out[6 * 2 + 3] = theta4_iii + params.offsets[3];
-  out[6 * 2 + 4] = theta5_iii + params.offsets[4];
-  out[6 * 2 + 5] = theta6_iii + params.offsets[5];
+  out[6 * 2 + 0] = (theta1_ii  + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 2 + 1] = (theta2_iii + params.offsets[1]) * params.sign_corrections[1];
+  out[6 * 2 + 2] = (theta3_iii + params.offsets[2]) * params.sign_corrections[2];
+  out[6 * 2 + 3] = (theta4_iii + params.offsets[3]) * params.sign_corrections[3];
+  out[6 * 2 + 4] = (theta5_iii + params.offsets[4]) * params.sign_corrections[4];
+  out[6 * 2 + 5] = (theta6_iii + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 3 + 0] = theta1_ii + params.offsets[0];
-  out[6 * 3 + 1] = theta2_iv + params.offsets[1];
-  out[6 * 3 + 2] = theta3_iv + params.offsets[2];
-  out[6 * 3 + 3] = theta4_iv + params.offsets[3];
-  out[6 * 3 + 4] = theta5_iv + params.offsets[4];
-  out[6 * 3 + 5] = theta6_iv + params.offsets[5];
+  out[6 * 3 + 0] = (theta1_ii + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 3 + 1] = (theta2_iv + params.offsets[1]) * params.sign_corrections[1];
+  out[6 * 3 + 2] = (theta3_iv + params.offsets[2]) * params.sign_corrections[2];
+  out[6 * 3 + 3] = (theta4_iv + params.offsets[3]) * params.sign_corrections[3];
+  out[6 * 3 + 4] = (theta5_iv + params.offsets[4]) * params.sign_corrections[4];
+  out[6 * 3 + 5] = (theta6_iv + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 4 + 0] = theta1_i + params.offsets[0];
-  out[6 * 4 + 1] = theta2_i + params.offsets[1];
-  out[6 * 4 + 2] = theta3_i + params.offsets[2];
-  out[6 * 4 + 3] = theta4_v + params.offsets[3];
-  out[6 * 4 + 4] = theta5_v + params.offsets[4];
-  out[6 * 4 + 5] = theta6_v + params.offsets[5];
+  out[6 * 4 + 0] = (theta1_i + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 4 + 1] = (theta2_i + params.offsets[1]) * params.sign_corrections[1];
+  out[6 * 4 + 2] = (theta3_i + params.offsets[2]) * params.sign_corrections[2];
+  out[6 * 4 + 3] = (theta4_v + params.offsets[3]) * params.sign_corrections[3];
+  out[6 * 4 + 4] = (theta5_v + params.offsets[4]) * params.sign_corrections[4];
+  out[6 * 4 + 5] = (theta6_v + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 5 + 0] = theta1_i + params.offsets[0];
-  out[6 * 5 + 1] = theta2_ii + params.offsets[1];
-  out[6 * 5 + 2] = theta3_ii + params.offsets[2];
-  out[6 * 5 + 3] = theta4_vi + params.offsets[3];
-  out[6 * 5 + 4] = theta5_vi + params.offsets[4];
-  out[6 * 5 + 5] = theta6_vi + params.offsets[5];
+  out[6 * 5 + 0] = (theta1_i  + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 5 + 1] = (theta2_ii + params.offsets[1]) * params.sign_corrections[1];
+  out[6 * 5 + 2] = (theta3_ii + params.offsets[2]) * params.sign_corrections[2];
+  out[6 * 5 + 3] = (theta4_vi + params.offsets[3]) * params.sign_corrections[3];
+  out[6 * 5 + 4] = (theta5_vi + params.offsets[4]) * params.sign_corrections[4];
+  out[6 * 5 + 5] = (theta6_vi + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 6 + 0] = theta1_ii + params.offsets[0];
-  out[6 * 6 + 1] = theta2_iii + params.offsets[1];
-  out[6 * 6 + 2] = theta3_iii + params.offsets[2];
-  out[6 * 6 + 3] = theta4_vii + params.offsets[3];
-  out[6 * 6 + 4] = theta5_vii + params.offsets[4];
-  out[6 * 6 + 5] = theta6_vii + params.offsets[5];
+  out[6 * 6 + 0] = (theta1_ii  + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 6 + 1] = (theta2_iii + params.offsets[1]) * params.sign_corrections[1];
+  out[6 * 6 + 2] = (theta3_iii + params.offsets[2]) * params.sign_corrections[2];
+  out[6 * 6 + 3] = (theta4_vii + params.offsets[3]) * params.sign_corrections[3];
+  out[6 * 6 + 4] = (theta5_vii + params.offsets[4]) * params.sign_corrections[4];
+  out[6 * 6 + 5] = (theta6_vii + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 7 + 0] = theta1_ii + params.offsets[0];
-  out[6 * 7 + 1] = theta2_iv + params.offsets[1];
-  out[6 * 7 + 2] = theta3_iv + params.offsets[2];
-  out[6 * 7 + 3] = theta4_viii + params.offsets[3];
-  out[6 * 7 + 4] = theta5_viii + params.offsets[4];
-  out[6 * 7 + 5] = theta6_viii + params.offsets[5];
+  out[6 * 7 + 0] = (theta1_ii   + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 7 + 1] = (theta2_iv   + params.offsets[1]) * params.sign_corrections[1];
+  out[6 * 7 + 2] = (theta3_iv   + params.offsets[2]) * params.sign_corrections[2];
+  out[6 * 7 + 3] = (theta4_viii + params.offsets[3]) * params.sign_corrections[3];
+  out[6 * 7 + 4] = (theta5_viii + params.offsets[4]) * params.sign_corrections[4];
+  out[6 * 7 + 5] = (theta6_viii + params.offsets[5]) * params.sign_corrections[5];
 }
 
 template <typename T>
@@ -193,12 +193,12 @@ Transform<T> forward(const Parameters<T>& p, const T* qs)
   using Vector = Eigen::Matrix<T, 3, 1>;
 
   T q[6];
-  q[0] = qs[0] - p.offsets[0];
-  q[1] = qs[1] - p.offsets[1];
-  q[2] = qs[2] - p.offsets[2];
-  q[3] = qs[3] - p.offsets[3];
-  q[4] = qs[4] - p.offsets[4];
-  q[5] = qs[5] - p.offsets[5];
+  q[0] = qs[0] * p.sign_corrections[0] - p.offsets[0];
+  q[1] = qs[1] * p.sign_corrections[1] - p.offsets[1];
+  q[2] = qs[2] * p.sign_corrections[2] - p.offsets[2];
+  q[3] = qs[3] * p.sign_corrections[3] - p.offsets[3];
+  q[4] = qs[4] * p.sign_corrections[4] - p.offsets[4];
+  q[5] = qs[5] * p.sign_corrections[5] - p.offsets[5];
 
   T psi3 = atan2(p.a2, p.c3);
   T k = sqrt(p.a2 * p.a2 + p.c3 * p.c3);

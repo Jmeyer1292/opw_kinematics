@@ -47,7 +47,7 @@ void getRandomJointValues(T * q)
 TEST(kuka_kr6, random_reachable_poses_double)
 {
   const int number_of_tests = 10;
-  const auto abb2400 = opw_kinematics::makeIrb2400_10<double>();
+  const auto kukaKR6_R700_sixx = opw_kinematics::makeKukaKR6_R700_sixx<double>();
 
   Eigen::Affine3d pose;
   double q_rand[6];
@@ -56,11 +56,11 @@ TEST(kuka_kr6, random_reachable_poses_double)
   {
     // create a reachable pose based on a random robot position
     getRandomJointValues(q_rand);
-    pose = opw_kinematics::forward(abb2400, q_rand);
+    pose = opw_kinematics::forward(kukaKR6_R700_sixx, q_rand);
 
     // Solve Inverse kinematics
     std::array<double, 6 * 8> sols;
-    opw_kinematics::inverse(abb2400, pose, sols.data());
+    opw_kinematics::inverse(kukaKR6_R700_sixx, pose, sols.data());
 
     // check all valid solutions using forward kinematics
     for (int i = 0; i < 8; ++i)
@@ -68,7 +68,7 @@ TEST(kuka_kr6, random_reachable_poses_double)
       if (opw_kinematics::isValid(&sols[6 * i]))
       {
         // Forward kinematics of a solution should result in the same pose
-        Eigen::Affine3d forward_pose = opw_kinematics::forward(abb2400, &sols[6 * i]);
+        Eigen::Affine3d forward_pose = opw_kinematics::forward(kukaKR6_R700_sixx, &sols[6 * i]);
         comparePoses(forward_pose, pose);
       }
     }
@@ -78,7 +78,7 @@ TEST(kuka_kr6, random_reachable_poses_double)
 TEST(kuka_kr6, random_reachable_poses_float)
 {
   const int number_of_tests = 10;
-  const auto abb2400 = opw_kinematics::makeIrb2400_10<float>();
+  const auto kukaKR6_R700_sixx = opw_kinematics::makeKukaKR6_R700_sixx<float>();
 
   Eigen::Affine3f pose;
   float q_rand[6];
@@ -87,11 +87,11 @@ TEST(kuka_kr6, random_reachable_poses_float)
   {
     // create a pose based on a random robot position
     getRandomJointValues(q_rand);
-    pose = opw_kinematics::forward(abb2400, q_rand);
+    pose = opw_kinematics::forward(kukaKR6_R700_sixx, q_rand);
 
     // Inverse kinematics
     std::array<float, 6 * 8> sols; // You could also use a std::vector or c-array of the appropriate size (6*8)
-    opw_kinematics::inverse(abb2400, pose, sols.data());
+    opw_kinematics::inverse(kukaKR6_R700_sixx, pose, sols.data());
 
     // check all valid solutions using forward kinematics
     for (int i = 0; i < 8; ++i)
@@ -99,7 +99,7 @@ TEST(kuka_kr6, random_reachable_poses_float)
       if (opw_kinematics::isValid(&sols[6 * i]))
       {
         // Forward kinematics
-        Eigen::Affine3f forward_pose = opw_kinematics::forward(abb2400, &sols[6 * i]);
+        Eigen::Affine3f forward_pose = opw_kinematics::forward(kukaKR6_R700_sixx, &sols[6 * i]);
         comparePoses(forward_pose, pose);
       }
     }

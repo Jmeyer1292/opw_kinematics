@@ -8,7 +8,7 @@ namespace opw_kinematics
 {
 
 template <typename T>
-std::ostream &operator<<(std::ostream &os, const Parameters<T> &params)
+std::ostream& operator<<(std::ostream& os, const Parameters<T>& params)
 {
   os << "Distances: [" << params.a1 << " "
      << params.a2 << " "

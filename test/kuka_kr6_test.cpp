@@ -3,17 +3,17 @@
 #include <random>
 
 #include "opw_kinematics/opw_kinematics.h"
-#include "opw_kinematics/opw_parameters_examples.h" // for makeIrb2400_10<double>()
-#include "opw_kinematics/opw_utilities.h"           // for optional checking
+#include "opw_kinematics/opw_parameters_examples.h"  // for makeIrb2400_10<double>()
+#include "opw_kinematics/opw_utilities.h"            // for optional checking
 
 const double TOLERANCE_DOUBLE = 1e-10;
-const float  TOLERANCE_FLOAT  = 1e-5;
+const float TOLERANCE_FLOAT = 1e-5;
 
 template <typename T>
 using Transform = Eigen::Transform<T, 3, Eigen::Affine>;
 
 template <typename T>
-void comparePoses(const Transform<T> & Ta, const Transform<T> & Tb, double tolerance)
+void comparePoses(const Transform<T>& Ta, const Transform<T>& Tb, double tolerance)
 {
   using Matrix = Eigen::Matrix<T, 3, 3>;
   using Vector = Eigen::Matrix<T, 3, 1>;
@@ -34,10 +34,10 @@ void comparePoses(const Transform<T> & Ta, const Transform<T> & Tb, double toler
 }
 
 template <typename T>
-void getRandomJointValues(T * q)
+void getRandomJointValues(T* q)
 {
-  static std::default_random_engine en{42}; // random engine
-  static std::uniform_real_distribution<T> rg{-M_PI, M_PI}; // random generator
+  static std::default_random_engine en{ 42 };                  // random engine
+  static std::uniform_real_distribution<T> rg{ -M_PI, M_PI };  // random generator
 
   q[0] = rg(en);
   q[1] = rg(en);
@@ -109,7 +109,7 @@ TEST(kuka_kr6, random_reachable_poses_float)
   }
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

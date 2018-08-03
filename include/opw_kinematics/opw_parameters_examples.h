@@ -43,7 +43,6 @@ Parameters<T> makeFanucR2000iB_200R()
 }
 
 template <typename T>
-__attribute__((deprecated("UN-TESTED")))
 Parameters<T> makeKukaKR6_R700_sixx()
 {
   Parameters<T> p;
@@ -55,8 +54,10 @@ Parameters<T> makeKukaKR6_R700_sixx()
   p.c3 = T(0.365);
   p.c4 = T(0.080);
 
-  // WARNING: This is a guess! I don't know the offets.
-  p.offsets[2] = -M_PI / 2.0;
+  p.offsets[1] = -M_PI / 2.0;
+  p.sign_corrections[0] = -1;
+  p.sign_corrections[3] = -1;
+  p.sign_corrections[5] = -1;
 
   return p;
 }

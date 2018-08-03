@@ -6,11 +6,14 @@
 #include "opw_kinematics/opw_parameters_examples.h" // for makeIrb2400_10<double>()
 #include "opw_kinematics/opw_utilities.h"           // for optional checking
 
+const double TOLERANCE_DOUBLE = 1e-10;
+const float  TOLERANCE_FLOAT  = 1e-5;
+
 template <typename T>
 using Transform = Eigen::Transform<T, 3, Eigen::Affine>;
 
 template <typename T>
-void comparePoses(const Transform<T> & Ta, const Transform<T> & Tb)
+void comparePoses(const Transform<T> & Ta, const Transform<T> & Tb, double tolerance)
 {
   using Matrix = Eigen::Matrix<T, 3, 3>;
   using Vector = Eigen::Matrix<T, 3, 1>;
@@ -20,14 +23,14 @@ void comparePoses(const Transform<T> & Ta, const Transform<T> & Tb)
   {
     for (int j = 0; j < Ra.cols(); ++j)
     {
-      EXPECT_NEAR(Ra(i, j), Rb(i, j), 1e-6);
+      EXPECT_NEAR(Ra(i, j), Rb(i, j), tolerance);
     }
   }
 
   Vector pa = Ta.translation(), pb = Tb.translation();
-  EXPECT_NEAR(pa[0], pb[0], 1e-6);
-  EXPECT_NEAR(pa[1], pb[1], 1e-6);
-  EXPECT_NEAR(pa[2], pb[2], 1e-6);
+  EXPECT_NEAR(pa[0], pb[0], tolerance);
+  EXPECT_NEAR(pa[1], pb[1], tolerance);
+  EXPECT_NEAR(pa[2], pb[2], tolerance);
 }
 
 template <typename T>
@@ -49,8 +52,9 @@ TEST(kuka_kr6, random_reachable_poses_double)
   const int number_of_tests = 10;
   const auto kukaKR6_R700_sixx = opw_kinematics::makeKukaKR6_R700_sixx<double>();
 
-  Eigen::Affine3d pose;
+  Eigen::Affine3d pose, forward_pose;
   double q_rand[6];
+  std::array<double, 6 * 8> sols;
 
   for (int j = 0; j < number_of_tests; ++j)
   {
@@ -59,7 +63,6 @@ TEST(kuka_kr6, random_reachable_poses_double)
     pose = opw_kinematics::forward(kukaKR6_R700_sixx, q_rand);
 
     // Solve Inverse kinematics
-    std::array<double, 6 * 8> sols;
     opw_kinematics::inverse(kukaKR6_R700_sixx, pose, sols.data());
 
     // check all valid solutions using forward kinematics
@@ -68,8 +71,8 @@ TEST(kuka_kr6, random_reachable_poses_double)
       if (opw_kinematics::isValid(&sols[6 * i]))
       {
         // Forward kinematics of a solution should result in the same pose
-        Eigen::Affine3d forward_pose = opw_kinematics::forward(kukaKR6_R700_sixx, &sols[6 * i]);
-        comparePoses(forward_pose, pose);
+        forward_pose = opw_kinematics::forward(kukaKR6_R700_sixx, &sols[6 * i]);
+        comparePoses(forward_pose, pose, TOLERANCE_DOUBLE);
       }
     }
   }
@@ -80,8 +83,9 @@ TEST(kuka_kr6, random_reachable_poses_float)
   const int number_of_tests = 10;
   const auto kukaKR6_R700_sixx = opw_kinematics::makeKukaKR6_R700_sixx<float>();
 
-  Eigen::Affine3f pose;
+  Eigen::Affine3f pose, forward_pose;
   float q_rand[6];
+  std::array<float, 6 * 8> sols;
 
   for (int j = 0; j < number_of_tests; ++j)
   {
@@ -90,7 +94,6 @@ TEST(kuka_kr6, random_reachable_poses_float)
     pose = opw_kinematics::forward(kukaKR6_R700_sixx, q_rand);
 
     // Inverse kinematics
-    std::array<float, 6 * 8> sols; // You could also use a std::vector or c-array of the appropriate size (6*8)
     opw_kinematics::inverse(kukaKR6_R700_sixx, pose, sols.data());
 
     // check all valid solutions using forward kinematics
@@ -99,8 +102,8 @@ TEST(kuka_kr6, random_reachable_poses_float)
       if (opw_kinematics::isValid(&sols[6 * i]))
       {
         // Forward kinematics
-        Eigen::Affine3f forward_pose = opw_kinematics::forward(kukaKR6_R700_sixx, &sols[6 * i]);
-        comparePoses(forward_pose, pose);
+        forward_pose = opw_kinematics::forward(kukaKR6_R700_sixx, &sols[6 * i]);
+        comparePoses(forward_pose, pose, TOLERANCE_FLOAT);
       }
     }
   }

@@ -59,14 +59,9 @@ if(TARGET ${PROJECT_NAME}-test)
   target_compile_definitions(${PROJECT_NAME}-test PUBLIC -DIKFAST_NO_MAIN -DIKFAST_CLIBRARY -DIKFAST_HAS_LIBRARY)
 endif()
 
+catkin_add_gtest(${PROJECT_NAME}-test-kuka
+  test/kuka_kr6_test.cpp
+)
+
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-# add a ros node to run the kuka_kr6_test
-# I don't know a better way to get a clean test output in the terminal
-add_executable(${PROJECT_NAME}_kuka_kr6_test test/kuka_kr6_test.cpp)
-set_target_properties(${PROJECT_NAME}_kuka_kr6_test PROPERTIES OUTPUT_NAME kuka_kr6_test PREFIX "")
-target_link_libraries(${PROJECT_NAME}_kuka_kr6_test
- gtest
- ${catkin_LIBRARIES}
-)

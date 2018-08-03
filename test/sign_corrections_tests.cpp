@@ -4,8 +4,9 @@
 
 #include "opw_kinematics/opw_kinematics.h"
 #include "opw_kinematics/opw_parameters_examples.h"
+#include "opw_kinematics/opw_utilities.h"
 
-const double TOLERANCE = 1e-6; // absolute tolerance for EXPECT_NEAR checks
+const double TOLERANCE = 1e-5; // absolute tolerance for EXPECT_NEAR checks
 
 template <typename T>
 using Transform = Eigen::Transform<T, 3, Eigen::Affine>;
@@ -34,7 +35,7 @@ void comparePoses(const Transform<T> & Ta, const Transform<T> & Tb)
 }
 
 TEST(kuka_kr6, forward_kinematics)
-{
+{  
   const auto kuka = opw_kinematics::makeKukaKR6_R700_sixx<float>();
 
   std::vector<float> joint_values = {0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
@@ -49,6 +50,31 @@ TEST(kuka_kr6, forward_kinematics)
   actual_pose.translation() << 0.7341169, -0.1520347, 0.182639;
 
   comparePoses(forward_pose, actual_pose);
+}
+
+TEST(kuka_kr6, inverse_kinematics)
+{
+  // this test assumes that the forward kinematics for joint values
+  // {0.2, 0.2, 0.2, 0.2, 0.2, 0.2} are correct
+
+  const auto kuka = opw_kinematics::makeKukaKR6_R700_sixx<float>();
+
+  std::vector<float> joint_values = {0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
+  Eigen::Affine3f forward_pose = opw_kinematics::forward(kuka, &joint_values[0]);
+
+  std::array<float, 6 * 8> sols;
+  opw_kinematics::inverse(kuka, forward_pose, sols.data());
+
+  Eigen::Affine3f pose;
+  for (int i = 0; i < 8; ++i)
+  {
+    if (opw_kinematics::isValid(&sols[6 * i]))
+    {
+      // Forward kinematics of a solution should result in the same pose
+      pose = opw_kinematics::forward(kuka, &sols[6 * i]);
+      comparePoses(forward_pose, pose);
+    }
+  }
 }
 
 int main(int argc, char **argv)

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(opw_kinematics)
 
-add_compile_options(-std=c++11)
+add_compile_options(-std=c++11 -Wall -Wextra)
 
 find_package(catkin REQUIRED)
 
@@ -62,6 +62,8 @@ if(CATKIN_ENABLE_TESTING)
   # Compares a known solution for a robot with varying joint "signs"
   catkin_add_gtest(${PROJECT_NAME}-test-sign-corrections test/sign_corrections_tests.cpp)
 
+  # Runs tests that iteratively solve FK then IK then confirm the new FK matches
+  # Also contains some throughput tests
   catkin_add_gtest(${PROJECT_NAME}-fk-ik test/fk_ik_tests.cpp)
 
 endif() # end catkin_enable_testing

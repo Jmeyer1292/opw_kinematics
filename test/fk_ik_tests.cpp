@@ -1,5 +1,5 @@
-// Author: JeroenDM (Github)
-// With minor edits by Jonathan Meyer
+// Author: Jeroen Demaeyer(JeroenDM @ Github)
+// With edits by Jonathan Meyer
 
 #include <array>
 #include <chrono>

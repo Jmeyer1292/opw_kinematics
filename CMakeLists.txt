@@ -59,5 +59,9 @@ if(TARGET ${PROJECT_NAME}-test)
   target_compile_definitions(${PROJECT_NAME}-test PUBLIC -DIKFAST_NO_MAIN -DIKFAST_CLIBRARY -DIKFAST_HAS_LIBRARY)
 endif()
 
+catkin_add_gtest(${PROJECT_NAME}-test-sign-corrections
+  test/sign_corrections_tests.cpp
+)
+
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

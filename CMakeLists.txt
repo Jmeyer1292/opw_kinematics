@@ -62,4 +62,6 @@ if(CATKIN_ENABLE_TESTING)
   # Compares a known solution for a robot with varying joint "signs"
   catkin_add_gtest(${PROJECT_NAME}-test-sign-corrections test/sign_corrections_tests.cpp)
 
+  catkin_add_gtest(${PROJECT_NAME}-fk-ik test/fk_ik_tests.cpp)
+
 endif() # end catkin_enable_testing

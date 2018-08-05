@@ -53,7 +53,7 @@ if(CATKIN_ENABLE_TESTING)
 
   # Compares the opw solutions with an ikfast generated for the same robot model
   catkin_add_gtest(${PROJECT_NAME}-test-2400-ikfast
-    test/abb2400_tests.cpp
+    test/abb2400_ikfast_tests.cpp
     test/abb_irb2400_manipulator_ikfast_solver.cpp
   )
   target_compile_definitions(${PROJECT_NAME}-test-2400-ikfast PUBLIC -DIKFAST_NO_MAIN

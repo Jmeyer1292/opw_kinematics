@@ -1,4 +1,4 @@
-// Author: Jeroen Demaeyer(JeroenDM @ Github)
+// Author: Jeroen De Maeyer (JeroenDM @ Github)
 // With edits by Jonathan Meyer
 
 #include <array>

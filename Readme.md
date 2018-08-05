@@ -4,8 +4,6 @@ spherical wrists. Based on the paper `An Analytical Solution of the Inverse Kine
 of Industrial Serial Manipulators with an Ortho-parallel Basis and a Spherical Wrist` by
 Mathias Brandstötter, Arthur Angerer, and Michael Hofbaur.
 
-This package is still under heavy development (23 October 2017) and I encourage you to check back soon.
-
 # Purpose
 This package is meant to provide a simpler alternative to IK-Fast based solutions in situations
 where one has an industrial robot with a parallel base and spherical wrist. This configuration

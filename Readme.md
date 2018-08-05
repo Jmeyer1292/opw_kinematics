@@ -20,11 +20,11 @@ and a set of joint-zero offsets. Given this structure, no other setup is require
 This library makes use of 7 kinematic parameters (a1, a2, b, c1, c2, c3, and c4) defined in the paper `An Analytical Solution of the Inverse Kinematics Problem
 of Industrial Serial Manipulators with an Ortho-parallel Basis and a Spherical Wrist`. See the paper for details.
 
-This paper assumes that the arm is at zero when all joints are sticking straight up in the air as seen in the image below.
+This paper assumes that the arm is at zero when all joints are sticking straight up in the air as seen in the image below. It also assumes that all rotations are positive about the base axis of the robot.
 
 ![OPW Diagram](opw.png)
 
-To use the library, fill out an `opw_kinematics::Parameters<T>` data structure with the appropriate values for the 7 kinematic parameters and any joint offsets required to bring the paper's zero position (arm up in Z) to the manufacturers position.
+To use the library, fill out an `opw_kinematics::Parameters<T>` data structure with the appropriate values for the 7 kinematic parameters and any joint offsets required to bring the paper's zero position (arm up in Z) to the manufacturers position. Additionally, there are 6 "sign correction" parameters (-1 or 1) that should be specified if your robot's axes do not match the convention in the paper.
 
 For example, the ABB IRB2400 has the following values:
 ```c++
@@ -38,6 +38,8 @@ For example, the ABB IRB2400 has the following values:
   p.c4 = T(0.085);
 
   p.offsets[2] = -M_PI / 2.0;
+
+  p.sign_corrections[0] = 1; // Already 1 by default; just an example
 ``` 
 
 Note that the offset of the third joint is -90 degrees, bringing the joint from the upright position to parallel with the ground at "zero".

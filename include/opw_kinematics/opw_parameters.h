@@ -14,7 +14,7 @@ struct Parameters
 
   T a1, a2, b, c1, c2, c3, c4;
   T offsets[6];
-  short int sign_corrections[6];
+  signed char sign_corrections[6];
 
   Parameters()
     : a1{0}, a2{0}, b{0}, c1{0}, c2{0}, c3{0}, c4{4},

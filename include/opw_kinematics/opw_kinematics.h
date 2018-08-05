@@ -29,7 +29,7 @@ using Transform = Eigen::Transform<T, 3, Eigen::Affine>;
  *            configuraton each time.
  */
 template <typename T>
-void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out);
+void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noexcept;
 
 /**
  * @brief Computes the tool pose of the robot described by @e when said robot
@@ -39,7 +39,7 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out);
  * @return The flange pose.
  */
 template <typename T>
-Transform<T> forward(const Parameters<T>& p, const T* qs);
+Transform<T> forward(const Parameters<T>& p, const T* qs) noexcept;
 
 #include "opw_kinematics/opw_kinematics_impl.h"
 

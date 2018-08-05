@@ -38,7 +38,7 @@ TEST(kuka_kr6, forward_kinematics)
 {  
   const auto kuka = opw_kinematics::makeKukaKR6_R700_sixx<float>();
 
-  std::vector<float> joint_values = {0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
+  std::vector<float> joint_values = {0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f};
   Eigen::Affine3f forward_pose = opw_kinematics::forward(kuka, &joint_values[0]);
 
   // Compare with copied results from forward kinematics using MoveIt!
@@ -59,7 +59,7 @@ TEST(kuka_kr6, inverse_kinematics)
 
   const auto kuka = opw_kinematics::makeKukaKR6_R700_sixx<float>();
 
-  std::vector<float> joint_values = {0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
+  std::vector<float> joint_values = {0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f};
   Eigen::Affine3f forward_pose = opw_kinematics::forward(kuka, &joint_values[0]);
 
   std::array<float, 6 * 8> sols;

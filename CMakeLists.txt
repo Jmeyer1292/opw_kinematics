@@ -49,19 +49,17 @@ install(DIRECTORY include/${PROJECT_NAME}/
 ## Testing ##
 #############
 
-## Add gtest based cpp test target and link libraries
-catkin_add_gtest(${PROJECT_NAME}-test
-  test/abb2400_tests.cpp
-  test/abb_irb2400_manipulator_ikfast_solver.cpp
-)
+if(CATKIN_ENABLE_TESTING)
 
-if(TARGET ${PROJECT_NAME}-test)
-  target_compile_definitions(${PROJECT_NAME}-test PUBLIC -DIKFAST_NO_MAIN -DIKFAST_CLIBRARY -DIKFAST_HAS_LIBRARY)
-endif()
+  # Compares the opw solutions with an ikfast generated for the same robot model
+  catkin_add_gtest(${PROJECT_NAME}-test-2400-ikfast
+    test/abb2400_tests.cpp
+    test/abb_irb2400_manipulator_ikfast_solver.cpp
+  )
+  target_compile_definitions(${PROJECT_NAME}-test-2400-ikfast PUBLIC -DIKFAST_NO_MAIN
+    -DIKFAST_CLIBRARY -DIKFAST_HAS_LIBRARY)
 
-catkin_add_gtest(${PROJECT_NAME}-test-sign-corrections
-  test/sign_corrections_tests.cpp
-)
+  # Compares a known solution for a robot with varying joint "signs"
+  catkin_add_gtest(${PROJECT_NAME}-test-sign-corrections test/sign_corrections_tests.cpp)
 
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
+endif() # end catkin_enable_testing

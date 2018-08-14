@@ -17,7 +17,7 @@ struct TestTolerance;
 
 template<>
 struct TestTolerance<float> {
-  static constexpr float TOLERANCE = 1e-4f;
+  static constexpr float TOLERANCE = 5e-4f;
   static constexpr const char* const NAME = "float";
 };
 

@@ -4,6 +4,8 @@
 #include "opw_kinematics/opw_kinematics.h"
 #include "opw_kinematics/opw_parameters_examples.h"
 
+using Transform = opw_kinematics::Transform<double>;
+
 struct PoseGenerator
 {
   PoseGenerator()
@@ -11,13 +13,13 @@ struct PoseGenerator
     index = 0;
   }
 
-  Eigen::Affine3d operator()()
+  Transform operator()()
   {
     const static int width = 100;
     int y = index % width;
     int z = index / width;
 
-    Eigen::Affine3d p = Eigen::Affine3d::Identity();
+    Transform p = Transform::Identity();
     p.translation() = Eigen::Vector3d(0.75, y * 0.01 - 0.5, 0.5 + z * 0.01);
 
     index++;
@@ -28,7 +30,7 @@ struct PoseGenerator
   int index;
 };
 
-void solveIKFast(const Eigen::Affine3d& p, ikfast::IkSolutionList<double>& sols)
+void solveIKFast(const Transform& p, ikfast::IkSolutionList<double>& sols)
 {
   double eetrans[3];
   double eerot[9];
@@ -49,7 +51,7 @@ void solveIKFast(const Eigen::Affine3d& p, ikfast::IkSolutionList<double>& sols)
   ComputeIk(eetrans, eerot, pfree, sols);
 }
 
-void solveOPW(const opw_kinematics::Parameters<double>& param, const Eigen::Affine3d& p,
+void solveOPW(const opw_kinematics::Parameters<double>& param, const Transform& p,
               std::array<double, 6 * 8>& sols)
 {
   opw_kinematics::inverse(param, p, sols.data());
@@ -194,7 +196,7 @@ TEST(ikfast_to_opw, similar_solutions)
 
   for (int i = 0; i < 40000; ++i)
   {
-    Eigen::Affine3d p = gen();
+    Transform p = gen();
 
     // Solve with IKFast
     ikfast::IkSolutionList<double> ikf_sols;

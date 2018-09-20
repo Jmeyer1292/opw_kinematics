@@ -8,10 +8,9 @@
 
 const double TOLERANCE = 1e-5; // absolute tolerance for EXPECT_NEAR checks
 
-template <typename T>
-using Transform = Eigen::Transform<T, 3, Eigen::Affine>;
+using opw_kinematics::Transform;
 
-/** @brief Compare every element of two eigen affine3 poses.
+/** @brief Compare every element of two eigen Isometry3 poses.
  */
 template <typename T>
 void comparePoses(const Transform<T> & Ta, const Transform<T> & Tb)
@@ -39,10 +38,10 @@ TEST(kuka_kr6, forward_kinematics)
   const auto kuka = opw_kinematics::makeKukaKR6_R700_sixx<float>();
 
   std::vector<float> joint_values = {0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f};
-  Eigen::Affine3f forward_pose = opw_kinematics::forward(kuka, &joint_values[0]);
+  Transform<float> forward_pose = opw_kinematics::forward(kuka, &joint_values[0]);
 
   // Compare with copied results from forward kinematics using MoveIt!
-  Eigen::Affine3f actual_pose;
+  Transform<float> actual_pose;
   actual_pose.matrix()  << -0.5965795, 0.000371195,   0.8025539, 0,
      -0.2724458,   0.9405218,   -0.202958, 0,
      -0.7548948,  -0.3397331,  -0.5609949, 0,
@@ -60,12 +59,12 @@ TEST(kuka_kr6, inverse_kinematics)
   const auto kuka = opw_kinematics::makeKukaKR6_R700_sixx<float>();
 
   std::vector<float> joint_values = {0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f};
-  Eigen::Affine3f forward_pose = opw_kinematics::forward(kuka, &joint_values[0]);
+  Transform<float> forward_pose = opw_kinematics::forward(kuka, &joint_values[0]);
 
   std::array<float, 6 * 8> sols;
   opw_kinematics::inverse(kuka, forward_pose, sols.data());
 
-  Eigen::Affine3f pose;
+  Transform<float> pose;
   for (int i = 0; i < 8; ++i)
   {
     if (opw_kinematics::isValid(&sols[6 * i]))

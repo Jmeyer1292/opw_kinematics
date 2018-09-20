@@ -8,11 +8,11 @@ namespace opw_kinematics
 {
 
 /**
- * Typedef equivalent to Eigen::Affine3d for T = double and Eigen::Affine3f for
+ * Typedef equivalent to Eigen::Isometry3d for T = double and Eigen::Isometry3f for
  * T = float.
  */
 template <typename T>
-using Transform = Eigen::Transform<T, 3, Eigen::Affine>;
+using Transform = Eigen::Transform<T, 3, Eigen::Isometry>;
 
 /**
  * @brief Computes up to 8 kinematically unique joint solutions that put the tool

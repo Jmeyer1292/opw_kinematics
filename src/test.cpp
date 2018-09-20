@@ -20,7 +20,7 @@ int main()
 {
   const auto abb2400 = opw_kinematics::makeIrb2400_10<double>();
 
-  Eigen::Affine3d pose = Eigen::Affine3d::Identity();
+  auto pose = opw_kinematics::Transform<double>::Identity();
   pose.translation() = Eigen::Vector3d(0.7, 0.2, 0);
 
   std::array<double, 6 * 8> sols;

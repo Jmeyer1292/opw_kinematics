@@ -58,7 +58,7 @@ int main()
   const auto abb2400 = opw_kinematics::makeIrb2400_10<double>();
 
   // Inverse kinematics
-  Eigen::Affine3d pose = Eigen::Affine3d::Identity();
+  auto pose = opw_kinematics::Transform<double>::Identity();
   pose.translation() = Eigen::Vector3d(1.3, 0.2, 0);
 
   // Up to 8 solutions exist
@@ -74,7 +74,7 @@ int main()
 
   // Optionally, harmonize the result toward zero in place
   // So if a joint is greater than PI or less than -PI, we add -2PI or +2PI respectively to move the joint solution closer to zero.
-  opw_kinematics::harmonizeTowardZero(&sols[6 * 2]) // Harmonizes the third solution.
+  opw_kinematics::harmonizeTowardZero(&sols[6 * 2]); // Harmonizes the third solution.
 
   return 0;
 }

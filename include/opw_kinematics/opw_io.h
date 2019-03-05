@@ -23,7 +23,7 @@ std::ostream& operator<<(std::ostream& os, const Parameters<T>& params)
   os << "]\nSign_corrections = [";
   for (std::size_t i = 0; i < 6; ++i)
   {
-    os << params.sign_corrections[i] << " ";
+    os << static_cast<int>(params.sign_corrections[i]) << " ";
   }
   os << "]";
   return os;

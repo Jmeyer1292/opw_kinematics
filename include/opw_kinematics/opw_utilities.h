@@ -16,8 +16,8 @@ inline bool isValid(const T* qs)
 template <typename T>
 inline void harmonizeTowardZero(T* qs)
 {
-  const static T pi = T(M_PI);
-  const static T two_pi = T(2.0 * M_PI);
+  const static T pi = static_cast<T>(M_PI);
+  const static T two_pi = static_cast<T>(2.0 * M_PI);
 
   for (int i = 0; i < 6; i++) // TODO: Unroll manually?
   {

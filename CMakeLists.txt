@@ -1,69 +1,68 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(opw_kinematics)
-
-add_compile_options(-std=c++11 -Wall -Wextra)
-
-find_package(catkin REQUIRED)
+cmake_minimum_required(VERSION 3.5.0)
+project(opw_kinematics VERSION 0.1.0 LANGUAGES CXX)
 
 find_package(Eigen3 REQUIRED)
-if(NOT EIGEN3_INCLUDE_DIRS)
-  set(EIGEN3_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
-endif()
 
-catkin_package(
-  INCLUDE_DIRS include
-  DEPENDS EIGEN3
-)
+# Create interface target
+add_library(${PROJECT_NAME} INTERFACE)
+target_link_libraries(${PROJECT_NAME} INTERFACE)
+target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra)
+target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_11)
+target_include_directories(${PROJECT_NAME} INTERFACE
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+    "$<INSTALL_INTERFACE:include>")
+target_include_directories(${PROJECT_NAME} SYSTEM INTERFACE
+    $<TARGET_PROPERTY:Eigen3::Eigen,INTERFACE_INCLUDE_DIRECTORIES>)
 
-###########
-## Build ##
-###########
-
-include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-  ${EIGEN3_INCLUDE_DIRS}
-)
-
+# Create test executable
 add_executable(${PROJECT_NAME}_node src/test.cpp)
-
 set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
-
-add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-target_link_libraries(${PROJECT_NAME}_node
- ${catkin_LIBRARIES}
-)
+target_link_libraries(${PROJECT_NAME}_node ${PROJECT_NAME})
 
 #############
 ## Install ##
 #############
+list (APPEND PACKAGE_LIBRARIES ${PROJECT_NAME})
 
-install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-  FILES_MATCHING PATTERN "*.h"
+# Mark executables and/or libraries for installation
+install(TARGETS ${PACKAGE_LIBRARIES} EXPORT ${PROJECT_NAME}-targets DESTINATION lib)
+install(EXPORT ${PROJECT_NAME}-targets DESTINATION lib/cmake/${PROJECT_NAME})
+
+# Mark cpp header files for installation
+install(DIRECTORY include/${PROJECT_NAME}
+  DESTINATION include
+  FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN "*.hxx"
   PATTERN ".svn" EXCLUDE
-)
+ )
+
+install(FILES package.xml DESTINATION share/${PROJECT_NAME})
+
+# Create cmake config files
+include(CMakePackageConfigHelpers)
+configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/${PROJECT_NAME}-config.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
+  INSTALL_DESTINATION lib/cmake/${PROJECT_NAME}
+  NO_CHECK_REQUIRED_COMPONENTS_MACRO)
+
+write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
+  VERSION ${PROJECT_VERSION} COMPATIBILITY ExactVersion)
+
+install(FILES
+  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
+  DESTINATION lib/cmake/${PROJECT_NAME})
+
+export(EXPORT ${PROJECT_NAME}-targets FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-targets.cmake)
 
 #############
 ## Testing ##
 #############
+option(ENABLE_TESTS "Enable tests" OFF)
+if (${ENABLE_TESTS})
+  enable_testing()
+  add_custom_target(run_tests ALL
+      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+      COMMAND ${CMAKE_CTEST_COMMAND} -C $<CONFIGURATION> -V)
 
-if(CATKIN_ENABLE_TESTING)
-
-  # Compares the opw solutions with an ikfast generated for the same robot model
-  catkin_add_gtest(${PROJECT_NAME}-test-2400-ikfast
-    test/abb2400_ikfast_tests.cpp
-    test/abb_irb2400_manipulator_ikfast_solver.cpp
-  )
-  target_compile_definitions(${PROJECT_NAME}-test-2400-ikfast PUBLIC -DIKFAST_NO_MAIN
-    -DIKFAST_CLIBRARY -DIKFAST_HAS_LIBRARY)
-
-  # Compares a known solution for a robot with varying joint "signs"
-  catkin_add_gtest(${PROJECT_NAME}-test-sign-corrections test/sign_corrections_tests.cpp)
-
-  # Runs tests that iteratively solve FK then IK then confirm the new FK matches
-  # Also contains some throughput tests
-  catkin_add_gtest(${PROJECT_NAME}-fk-ik test/fk_ik_tests.cpp)
-
-endif() # end catkin_enable_testing
+  add_subdirectory(test)
+endif()

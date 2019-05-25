@@ -17,7 +17,9 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <depend>eigen</depend>
+  <test_depend>gtest</test_depend>
 
   <export>
+    <build_type>cmake</build_type>
   </export>
 </package>

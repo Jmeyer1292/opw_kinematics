@@ -253,7 +253,9 @@ Transform<T> forward(const Parameters<T>& p, const T* qs) noexcept
 
   Matrix r_oe = r_0c * r_ce;
 
-  auto u = Vector(cx0, cy0, cz0) + p.c4 * r_oe * Vector::UnitZ();
+  //Note: do not use auto here, leads to lazy evalutation which
+  // seems to be buggy on at least some setups and uses uninitialized data
+  Vector u = Vector(cx0, cy0, cz0) + p.c4 * r_oe * Vector::UnitZ();
 
   Transform<T> i;
   i.translation() = u;

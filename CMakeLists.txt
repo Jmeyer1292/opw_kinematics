@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 3.8.0)
 project(opw_kinematics VERSION 0.1.0 LANGUAGES CXX)
 
 find_package(Eigen3 REQUIRED)

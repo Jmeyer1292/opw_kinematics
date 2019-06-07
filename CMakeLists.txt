@@ -1,18 +1,29 @@
-cmake_minimum_required(VERSION 3.8.0)
+cmake_minimum_required(VERSION 3.5.0)
 project(opw_kinematics VERSION 0.1.0 LANGUAGES CXX)
 
 find_package(Eigen3 REQUIRED)
+if(NOT EIGEN3_INCLUDE_DIRS)
+  set(EIGEN3_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
+endif()
+
+list(FIND CMAKE_CXX_COMPILE_FEATURES cxx_std_11 CXX_FEATURE_FOUND)
 
 # Create interface target
 add_library(${PROJECT_NAME} INTERFACE)
 target_link_libraries(${PROJECT_NAME} INTERFACE)
 target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra)
-target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_11)
+
+if(CXX_FEATURE_FOUND EQUAL "-1")
+    set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 11 CXX_STANDARD_REQUIRED YES)
+else()
+    target_compile_features(${PROJECT_NAME} INTERFACE cxx_std_11)
+endif()
+
 target_include_directories(${PROJECT_NAME} INTERFACE
     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
     "$<INSTALL_INTERFACE:include>")
 target_include_directories(${PROJECT_NAME} SYSTEM INTERFACE
-    $<TARGET_PROPERTY:Eigen3::Eigen,INTERFACE_INCLUDE_DIRECTORIES>)
+    ${EIGEN3_INCLUDE_DIRS})
 
 # Create test executable
 add_executable(${PROJECT_NAME}_node src/test.cpp)

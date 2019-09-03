@@ -258,6 +258,7 @@ Transform<T> forward(const Parameters<T>& p, const T* qs) noexcept
   Vector u = Vector(cx0, cy0, cz0) + p.c4 * r_oe * Vector::UnitZ();
 
   Transform<T> i;
+  i.setIdentity();
   i.translation() = u;
   i.linear() = r_oe;
 

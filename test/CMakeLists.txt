@@ -5,19 +5,19 @@ if ( NOT ${GTest_FOUND} )
   ExternalProject_Add(GTest
     GIT_REPOSITORY    https://github.com/google/googletest.git
     GIT_TAG           release-1.8.1
-    SOURCE_DIR        ${CMAKE_BINARY_DIR}/../googletest-src
-    BINARY_DIR        ${CMAKE_BINARY_DIR}/../googletest-build
+    SOURCE_DIR        ${CMAKE_BINARY_DIR}/../${PROJECT_NAME}-googletest-src
+    BINARY_DIR        ${CMAKE_BINARY_DIR}/../${PROJECT_NAME}-googletest-build
     CMAKE_CACHE_ARGS
-            -DCMAKE_INSTALL_PREFIX:STRING=${CMAKE_INSTALL_PREFIX}
+            -DCMAKE_INSTALL_PREFIX:STRING=${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}
             -DCMAKE_BUILD_TYPE:STRING=Release
             -DBUILD_GMOCK:BOOL=OFF
             -DBUILD_GTEST:BOOL=ON
             -DBUILD_SHARED_LIBS:BOOL=ON
   )
 
-  file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/include)
-  set(GTEST_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/include)
-  set(GTEST_BOTH_LIBRARIES ${CMAKE_INSTALL_PREFIX}/lib/libgtest.so)
+  file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/include)
+  set(GTEST_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/include)
+  set(GTEST_BOTH_LIBRARIES ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/lib/libgtest.so)
 endif()
 
 if(NOT TARGET gtest::GTest)

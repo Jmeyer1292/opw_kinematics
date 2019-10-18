@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <array>
 
 #include "ikfast.h"
 #include "opw_kinematics/opw_kinematics.h"

@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include <Eigen/Dense>
+#include <array>
 
 #include "opw_kinematics/opw_kinematics.h"
 #include "opw_kinematics/opw_parameters_examples.h"

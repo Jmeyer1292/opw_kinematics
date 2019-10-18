@@ -3,6 +3,15 @@
 
 #include "opw_kinematics/opw_kinematics.h"
 
+#if defined(__GNUC__) || defined(__clang__)
+#define DEPRECATED __attribute__((deprecated))
+#elif defined(_MSC_VER)
+#define DEPRECATED __declspec(deprecated)
+#else
+#pragma message("WARNING: You need to implement DEPRECATED for this compiler")
+#define DEPRECATED
+#endif
+
 namespace opw_kinematics
 {
 
@@ -24,8 +33,7 @@ Parameters<T> makeIrb2400_10()
 }
 
 template <typename T>
-__attribute__((deprecated("UN-TESTED")))
-Parameters<T> makeFanucR2000iB_200R()
+DEPRECATED Parameters<T> makeFanucR2000iB_200R()
 {
   Parameters<T> p;
   p.a1 = T(0.720);
@@ -63,8 +71,7 @@ Parameters<T> makeKukaKR6_R700_sixx()
 }
 
 template <typename T>
-__attribute__((deprecated("UN-TESTED")))
-Parameters<T> makeStaubliTX40()
+DEPRECATED Parameters<T> makeStaubliTX40()
 {
   Parameters<T> p;
   p.a1 = T(0.000);

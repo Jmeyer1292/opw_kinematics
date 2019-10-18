@@ -1,6 +1,8 @@
 #ifndef OPW_KINEMATICS_IMPL_H
 #define OPW_KINEMATICS_IMPL_H
 
+#include <cmath>
+
 template <typename T>
 void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noexcept
 {

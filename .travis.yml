@@ -43,13 +43,12 @@ install:
         cd catkin_ws        
         choco uninstall mingw
         wget https://raw.githubusercontent.com/johnwason/source_bat/master/source_bat.bash
-        alias source_bat="source source_bat.bash"
-        source_bat 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat'
+        source source_bat.bash 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat'
         choco source add -n=ros-win -s="https://roswin.azurewebsites.net/api/v2" --priority=1
         choco install ros-melodic-ros_base -y --execution-timeout=0
         #wget https://gist.githubusercontent.com/Levi-Armstrong/e3bb008e579a99c52eb74235dff6735a/raw/travis_ci_windows.bat
         #cmd "/C call travis_ci_windows.bat install "        
-        source_bat 'c:\opt\ros\melodic\x64\setup.bat'
+        source source_bat.bash 'c:\opt\ros\melodic\x64\setup.bat'
         rosdep install --from-paths src --ignore-src -r -y
         /c/opt/vcpkg/vcpkg.exe install jsoncpp:x64-windows
     fi

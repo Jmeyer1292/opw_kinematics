@@ -66,7 +66,7 @@ install(FILES
   "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
   DESTINATION lib/cmake/${PROJECT_NAME})
 
-export(EXPORT ${PROJECT_NAME}-targets FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-targets.cmake)
+export(EXPORT ${PROJECT_NAME}-targets NAMESPACE opw_kinematics:: FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-targets.cmake)
 
 #############
 ## Testing ##

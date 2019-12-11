@@ -6,6 +6,7 @@
 #include <gtest/gtest.h>
 #include <random>
 
+#include "opw_kinematics/opw_macros.h"
 #include "opw_kinematics/opw_kinematics.h"
 #include "opw_kinematics/opw_parameters_examples.h"
 #include "opw_kinematics/opw_utilities.h"
@@ -194,6 +195,7 @@ TEST(abb_2400, throughput_tests_double)
   runThroughputTests(params);
 }
 
+OPW_IGNORE_WARNINGS_PUSH
 TEST(fanuc_r2000, random_reachable_poses_double)
 {
   const auto params = opw_kinematics::makeFanucR2000iB_200R<double>();
@@ -217,6 +219,7 @@ TEST(fanuc_r2000, throughput_tests_double)
   const auto params = opw_kinematics::makeFanucR2000iB_200R<double>();
   runThroughputTests(params);
 }
+OPW_IGNORE_WARNINGS_POP
 
 int main(int argc, char** argv)
 {

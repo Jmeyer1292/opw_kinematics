@@ -17,6 +17,8 @@
 ///     gcc -lstdc++ ik.cpp
 /// To compile without any main function as a shared object (might need -llapack):
 ///     gcc -fPIC -lstdc++ -DIKFAST_NO_MAIN -DIKFAST_CLIBRARY -shared -Wl,-soname,libik.so -o libik.so ik.cpp
+#include <opw_kinematics/opw_macros.h>
+OPW_IGNORE_WARNINGS_PUSH
 #define IKFAST_HAS_LIBRARY
 #include "ikfast.h" // found inside share/openrave-X.Y/python/ikfast.h
 using namespace ikfast;
@@ -2554,3 +2556,4 @@ int main(int argc, char** argv)
 }
 
 #endif
+OPW_IGNORE_WARNINGS_POP

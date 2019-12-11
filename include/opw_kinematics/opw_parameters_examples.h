@@ -2,15 +2,8 @@
 #define OPW_PARAMETER_EXAMPLES_H
 
 #include "opw_kinematics/opw_kinematics.h"
+#include <opw_kinematics/opw_macros.h>
 
-#if defined(__GNUC__) || defined(__clang__)
-#define DEPRECATED(X) __attribute__((deprecated(X)))
-#elif defined(_MSC_VER)
-#define DEPRECATED(X) __declspec(deprecated(X))
-#else
-#pragma message("WARNING: You need to implement DEPRECATED for this compiler")
-#define DEPRECATED(X)
-#endif
 
 namespace opw_kinematics
 {

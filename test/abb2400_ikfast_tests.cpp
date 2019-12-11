@@ -1,7 +1,10 @@
+#include <opw_kinematics/opw_macros.h>
+OPW_IGNORE_WARNINGS_PUSH
 #include <gtest/gtest.h>
 #include <array>
-
 #include "ikfast.h"
+OPW_IGNORE_WARNINGS_POP
+
 #include "opw_kinematics/opw_kinematics.h"
 #include "opw_kinematics/opw_parameters_examples.h"
 

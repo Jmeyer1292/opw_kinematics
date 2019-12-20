@@ -67,7 +67,7 @@ int main()
   opw_kinematics::inverse(abb2400, pose, sols.data());
 
   // Forward kinematics
-  Eigen::Affine3d forward_pose = opw_kinematics::forward(abb2400, &sols[6 * 0]);
+  Eigen::Isometry3d forward_pose = opw_kinematics::forward(abb2400, &sols[6 * 0]);
 
   // Optionally, check for validity (this just makes sure there are no Nans in a solution)
   bool second_sol_is_valid = opw_kinematics::isValid(&sols[6 * 1]);

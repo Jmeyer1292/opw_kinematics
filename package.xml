@@ -15,7 +15,7 @@
 
   <license>Apache 2.0</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>cmake</buildtool_depend>
   <depend>eigen</depend>
   <test_depend>gtest</test_depend>
 

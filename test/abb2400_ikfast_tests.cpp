@@ -1,12 +1,17 @@
 #include <opw_kinematics/opw_macros.h>
 OPW_IGNORE_WARNINGS_PUSH
-#include <gtest/gtest.h>
-#include <array>
+#include <gtest/gtest.h>                             // IWYU pragma: keep
+#include <cstdlib>                                   // for abs, size_t
+#include <array>                                     // for array
+#include <cmath>                                     // for fmod, M_PI, isnan
+#include <iomanip>                                   // for operator<<, setp...
+#include <iostream>                                  // for operator<<, basi...
+#include <vector>                                    // for vector
 #include "ikfast.h"
 OPW_IGNORE_WARNINGS_POP
 
-#include "opw_kinematics/opw_kinematics.h"
-#include "opw_kinematics/opw_parameters_examples.h"
+#include "opw_kinematics/opw_kinematics.h"           // IWYU pragma: keep
+#include "opw_kinematics/opw_parameters_examples.h"  // for makeIrb2400_10
 
 using Transform = opw_kinematics::Transform<double>;
 
@@ -188,7 +193,7 @@ void compare(ikfast::IkSolutionList<double>& ikf, std::array<double, 6 * 8>& opw
 
 }
 
-TEST(ikfast_to_opw, similar_solutions)
+TEST(ikfast_to_opw, similar_solutions) // NOLINT
 {
   // IK-Fast is implicitly instantiated
 

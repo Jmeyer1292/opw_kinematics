@@ -1,8 +1,8 @@
 #ifndef OPW_KINEMATICS_H
 #define OPW_KINEMATICS_H
 
-#include <Eigen/Dense>
-#include "opw_kinematics/opw_parameters.h"
+#include <Eigen/Dense> // IWYU pragma: export
+#include "opw_kinematics/opw_parameters.h" // IWYU pragma: export
 
 namespace opw_kinematics
 {
@@ -41,7 +41,7 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noex
 template <typename T>
 Transform<T> forward(const Parameters<T>& p, const T* qs) noexcept;
 
-#include "opw_kinematics/opw_kinematics_impl.h"
+#include "opw_kinematics/opw_kinematics_impl.h" // IWYU pragma: export
 
 } // end namespace opw_kinematics
 

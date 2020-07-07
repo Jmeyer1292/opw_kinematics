@@ -24,13 +24,12 @@ OPW_IGNORE_WARNINGS_PUSH
 using namespace ikfast;
 
 // check if the included ikfast version matches what this file was compiled with
-#define IKFAST_COMPILE_ASSERT(x) extern int __dummy[(int)x]
+#define IKFAST_COMPILE_ASSERT(x) extern int __dummy[(int)(x)]
 IKFAST_COMPILE_ASSERT(IKFAST_VERSION==61);
 
 #include <cmath>
 #include <vector>
 #include <limits>
-#include <algorithm>
 #include <complex>
 
 #define IKFAST_STRINGIZE2(s) #s
@@ -38,8 +37,9 @@ IKFAST_COMPILE_ASSERT(IKFAST_VERSION==61);
 
 #ifndef IKFAST_ASSERT
 #include <stdexcept>
-#include <sstream>
 #include <iostream>
+#include <cstddef>                     // for NULL
+#include <memory>                       // for allocator_traits<>::value_type
 
 #ifdef _MSC_VER
 #ifndef __PRETTY_FUNCTION__

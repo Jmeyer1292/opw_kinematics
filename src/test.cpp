@@ -2,10 +2,9 @@
 #include <iostream>
 #include <array>
 
-#include "opw_kinematics/opw_kinematics.h"
-#include "opw_kinematics/opw_utilities.h"
+// IWYU pragma: no_include "opw_kinematics/opw_kinematics_impl.h"
+#include "opw_kinematics/opw_utilities.h" // IWYU pragma: keep
 #include "opw_kinematics/opw_parameters_examples.h"
-#include "opw_kinematics/opw_io.h"
 
 void printResults(const std::array<double, 6 * 8>& sols)
 {

@@ -1,13 +1,14 @@
 // Author: Jeroen De Maeyer (JeroenDM @ Github)
 // With edits by Jonathan Meyer
-
+#include <opw_kinematics/opw_macros.h>
+OPW_IGNORE_WARNINGS_PUSH
 #include <array>
 #include <chrono>
-#include <gtest/gtest.h>
+#include <gtest/gtest.h>                             // IWYU pragma: keep
 #include <random>
+OPW_IGNORE_WARNINGS_POP
 
-#include "opw_kinematics/opw_macros.h"
-#include "opw_kinematics/opw_kinematics.h"
+#include "opw_kinematics/opw_kinematics.h" // IWYU pragma: keep
 #include "opw_kinematics/opw_parameters_examples.h"
 #include "opw_kinematics/opw_utilities.h"
 
@@ -42,14 +43,14 @@ void comparePoses(const Transform<T>& Ta, const Transform<T>& Tb, double toleran
   {
     for (int j = 0; j < Ra.cols(); ++j)
     {
-      EXPECT_NEAR(Ra(i, j), Rb(i, j), tolerance);
+      EXPECT_NEAR(static_cast<double>(Ra(i, j)), static_cast<double>(Rb(i, j)), tolerance);
     }
   }
 
   Vector pa = Ta.translation(), pb = Tb.translation();
-  EXPECT_NEAR(pa[0], pb[0], tolerance);
-  EXPECT_NEAR(pa[1], pb[1], tolerance);
-  EXPECT_NEAR(pa[2], pb[2], tolerance);
+  EXPECT_NEAR(static_cast<double>(pa[0]), static_cast<double>(pb[0]), tolerance);
+  EXPECT_NEAR(static_cast<double>(pa[1]), static_cast<double>(pb[1]), tolerance);
+  EXPECT_NEAR(static_cast<double>(pa[2]), static_cast<double>(pb[2]), tolerance);
 }
 
 template <typename T>
@@ -148,73 +149,74 @@ void runThroughputTests(const opw_kinematics::Parameters<T>& params)
   std::cout << "Average us per ik solve: " << static_cast<double>(ik_dt_us) / number_of_tests << "\n";
 }
 
-TEST(kuka_kr6, random_reachable_poses_double)
+TEST(kuka_kr6, random_reachable_poses_double) // NOLINT
 {
   const auto kukaKR6_R700_sixx = opw_kinematics::makeKukaKR6_R700_sixx<double>();
   runRandomReachablePosesTest(kukaKR6_R700_sixx);
 }
 
-TEST(kuka_kr6, random_reachable_poses_float)
+TEST(kuka_kr6, random_reachable_poses_float) // NOLINT
 {
   const auto kukaKR6_R700_sixx = opw_kinematics::makeKukaKR6_R700_sixx<float>();
   runRandomReachablePosesTest(kukaKR6_R700_sixx);
 }
 
-TEST(kuka_kr6, throughput_tests_float)
+TEST(kuka_kr6, throughput_tests_float) // NOLINT
 {
   const auto params = opw_kinematics::makeKukaKR6_R700_sixx<float>();
   runThroughputTests(params);
 }
 
-TEST(kuka_kr6, throughput_tests_double)
+TEST(kuka_kr6, throughput_tests_double) // NOLINT
 {
   const auto params = opw_kinematics::makeKukaKR6_R700_sixx<double>();
   runThroughputTests(params);
 }
 
-TEST(abb_2400, throughput_tests_float)
+TEST(abb_2400, throughput_tests_float) // NOLINT
 {
   const auto params = opw_kinematics::makeIrb2400_10<float>();
   runThroughputTests(params);
 }
-TEST(abb_2400, random_reachable_poses_double)
+
+TEST(abb_2400, random_reachable_poses_double) // NOLINT
 {
   const auto params = opw_kinematics::makeIrb2400_10<double>();
   runRandomReachablePosesTest(params);
 }
 
-TEST(abb_2400, random_reachable_poses_float)
+TEST(abb_2400, random_reachable_poses_float) // NOLINT
 {
   const auto params= opw_kinematics::makeIrb2400_10<float>();
   runRandomReachablePosesTest(params);
 }
 
-TEST(abb_2400, throughput_tests_double)
+TEST(abb_2400, throughput_tests_double) // NOLINT
 {
   const auto params = opw_kinematics::makeIrb2400_10<double>();
   runThroughputTests(params);
 }
 
 OPW_IGNORE_WARNINGS_PUSH
-TEST(fanuc_r2000, random_reachable_poses_double)
+TEST(fanuc_r2000, random_reachable_poses_double) // NOLINT
 {
   const auto params = opw_kinematics::makeFanucR2000iB_200R<double>();
   runRandomReachablePosesTest(params);
 }
 
-TEST(fanuc_r2000, random_reachable_poses_float)
+TEST(fanuc_r2000, random_reachable_poses_float) // NOLINT
 {
   const auto params= opw_kinematics::makeFanucR2000iB_200R<float>();
   runRandomReachablePosesTest(params);
 }
 
-TEST(fanuc_r2000, throughput_tests_float)
+TEST(fanuc_r2000, throughput_tests_float) // NOLINT
 {
   const auto params = opw_kinematics::makeFanucR2000iB_200R<float>();
   runThroughputTests(params);
 }
 
-TEST(fanuc_r2000, throughput_tests_double)
+TEST(fanuc_r2000, throughput_tests_double) // NOLINT
 {
   const auto params = opw_kinematics::makeFanucR2000iB_200R<double>();
   runThroughputTests(params);

@@ -1,9 +1,14 @@
-#include <gtest/gtest.h>
+#include <opw_kinematics/opw_macros.h>
+OPW_IGNORE_WARNINGS_PUSH
+#include <gtest/gtest-message.h>                     // for Message
+#include <gtest/gtest-test-part.h>                   // for TestPartResult
+#include <gtest/gtest.h>                             // IWYU pragma: keep
+#include <Eigen/Core>                                // IWYU pragma: keep
 #include <vector>
-#include <Eigen/Dense>
 #include <array>
+OPW_IGNORE_WARNINGS_POP
 
-#include "opw_kinematics/opw_kinematics.h"
+#include "opw_kinematics/opw_kinematics.h" // IWYU pragma: keep
 #include "opw_kinematics/opw_parameters_examples.h"
 #include "opw_kinematics/opw_utilities.h"
 
@@ -34,7 +39,7 @@ void comparePoses(const Transform<T> & Ta, const Transform<T> & Tb)
   EXPECT_NEAR(pa[2], pb[2], TOLERANCE);
 }
 
-TEST(kuka_kr6, forward_kinematics)
+TEST(kuka_kr6, forward_kinematics) // NOLINT
 {  
   const auto kuka = opw_kinematics::makeKukaKR6_R700_sixx<float>();
 
@@ -52,7 +57,7 @@ TEST(kuka_kr6, forward_kinematics)
   comparePoses(forward_pose, actual_pose);
 }
 
-TEST(kuka_kr6, inverse_kinematics)
+TEST(kuka_kr6, inverse_kinematics) // NOLINT
 {
   // this test assumes that the forward kinematics for joint values
   // {0.2, 0.2, 0.2, 0.2, 0.2, 0.2} are correct

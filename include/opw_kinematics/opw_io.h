@@ -2,7 +2,7 @@
 #define OPW_IO_H
 
 #include <iostream>
-#include "opw_kinematics/opw_parameters.h"
+#include "opw_kinematics/opw_parameters.h" // IWYU pragma: export
 
 namespace opw_kinematics
 {

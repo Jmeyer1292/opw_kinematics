@@ -16,6 +16,7 @@
   <license>Apache 2.0</license>
 
   <buildtool_depend>cmake</buildtool_depend>
+  <build_depend>cmake_common_scripts</build_depend>
   <depend>eigen</depend>
   <test_depend>gtest</test_depend>
 

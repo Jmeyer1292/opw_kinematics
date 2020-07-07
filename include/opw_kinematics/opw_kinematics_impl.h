@@ -61,25 +61,25 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noex
   T sin1[4];
   T cos1[4];
 
-  sin1[0] = sin(theta1_i);
-  sin1[1] = sin(theta1_i);
-  sin1[2] = sin(theta1_ii); // ???
-  sin1[3] = sin(theta1_ii);
+  sin1[0] = std::sin(theta1_i);
+  sin1[1] = std::sin(theta1_i);
+  sin1[2] = std::sin(theta1_ii); // ???
+  sin1[3] = std::sin(theta1_ii);
 
-  cos1[0] = cos(theta1_i);
-  cos1[1] = cos(theta1_i);
-  cos1[2] = cos(theta1_ii); // ???
-  cos1[3] = cos(theta1_ii);
+  cos1[0] = std::cos(theta1_i);
+  cos1[1] = std::cos(theta1_i);
+  cos1[2] = std::cos(theta1_ii); // ???
+  cos1[3] = std::cos(theta1_ii);
 
-  s23[0] = sin(theta2_i + theta3_i);
-  s23[1] = sin(theta2_ii + theta3_ii);
-  s23[2] = sin(theta2_iii + theta3_iii);
-  s23[3] = sin(theta2_iv + theta3_iv);
+  s23[0] = std::sin(theta2_i + theta3_i);
+  s23[1] = std::sin(theta2_ii + theta3_ii);
+  s23[2] = std::sin(theta2_iii + theta3_iii);
+  s23[3] = std::sin(theta2_iv + theta3_iv);
 
-  c23[0] = cos(theta2_i + theta3_i);
-  c23[1] = cos(theta2_ii + theta3_ii);
-  c23[2] = cos(theta2_iii + theta3_iii);
-  c23[3] = cos(theta2_iv + theta3_iv);
+  c23[0] = std::cos(theta2_i + theta3_i);
+  c23[1] = std::cos(theta2_ii + theta3_ii);
+  c23[2] = std::cos(theta2_iii + theta3_iii);
+  c23[3] = std::cos(theta2_iv + theta3_iv);
 
   T m[4];
   m[0] = matrix(0,2) * s23[0] * cos1[0] + matrix(1,2) * s23[0] * sin1[0] + matrix(2,2) * c23[0];
@@ -104,10 +104,10 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noex
   T theta4_vii = theta4_iii + T(M_PI);
   T theta4_viii = theta4_iv + T(M_PI);
 
-  T theta5_i = std::atan2(sqrt(1 - m[0] * m[0]), m[0]);
-  T theta5_ii = std::atan2(sqrt(1 - m[1] * m[1]), m[1]);
-  T theta5_iii = std::atan2(sqrt(1 - m[2] * m[2]), m[2]);
-  T theta5_iv = std::atan2(sqrt(1 - m[3] * m[3]), m[3]);
+  T theta5_i = std::atan2(std::sqrt(1 - m[0] * m[0]), m[0]);
+  T theta5_ii = std::atan2(std::sqrt(1 - m[1] * m[1]), m[1]);
+  T theta5_iii = std::atan2(std::sqrt(1 - m[2] * m[2]), m[2]);
+  T theta5_iv = std::atan2(std::sqrt(1 - m[3] * m[3]), m[3]);
 
   T theta5_v = -theta5_i;
   T theta5_vi = -theta5_ii;

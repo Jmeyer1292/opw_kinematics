@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 5 * * *'
+
+jobs:
+  industrial_ci:
+    name: ${{ matrix.env.CI_NAME }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        env:
+          - {CI_NAME: Clang-Format,
+             OS_NAME: ubuntu,
+             OS_CODE_NAME: bionic,
+             ROS_DISTRO: melodic,
+             ROS_REPO: main,
+             ROSDEP_SKIP_KEYS: "bullet3 fcl",
+             CLANG_FORMAT_CHECK: file,
+             CLANG_FORMAT_VERSION: 8}
+          - {CI_NAME: Focal-Build,
+             OS_NAME: ubuntu,
+             OS_CODE_NAME: focal,
+             ROS_DISTRO: noetic,
+             ROS_REPO: main,
+             TARGET_WORKSPACE: '. github:ros-industrial/cmake_common_scripts#master',
+             ROSDEP_SKIP_KEYS: "iwyu cmake_common_scripts",
+             CCACHE_DIR: "/home/runner/work/opw_kinematics/opw_kinematics/Focal-Build/.ccache",
+             BEFORE_RUN_TARGET_TEST_EMBED: "source /root/target_ws/install/setup.bash",
+             TARGET_CMAKE_ARGS: "-DCMAKE_BUILD_TYPE=Debug -DOPW_ENABLE_TESTING=ON"}
+          - {CI_NAME: Bionic-Build,
+             OS_NAME: ubuntu,
+             OS_CODE_NAME: bionic,
+             ROS_DISTRO: melodic,
+             ROS_REPO: main,
+             TARGET_WORKSPACE: '. github:ros-industrial/cmake_common_scripts#master',
+             ROSDEP_SKIP_KEYS: "iwyu cmake_common_scripts",
+             CCACHE_DIR: "/home/runner/work/opw_kinematics/opw_kinematics/Bionic-Build/.ccache",
+             TARGET_CMAKE_ARGS: "-DCMAKE_BUILD_TYPE=Debug -DOPW_ENABLE_TESTING=ON",
+             AFTER_SCRIPT: 'catkin build -w $target_ws --no-deps --verbose opw_kinematics --make-args test'}
+          - {CI_NAME: Xenial-Build,
+             OS_NAME: ubuntu,
+             OS_CODE_NAME: xenial,
+             ROS_DISTRO: kinetic,
+             ROS_REPO: main,
+             TARGET_WORKSPACE: '. github:ros-industrial/cmake_common_scripts#master',
+             ROSDEP_SKIP_KEYS: "iwyu cmake_common_scripts",
+             CCACHE_DIR: "/home/runner/work/opw_kinematics/opw_kinematics/Xenial-Build/.ccache",
+             TARGET_CMAKE_ARGS: "-DCMAKE_BUILD_TYPE=Debug -DOPW_ENABLE_TESTING=ON",
+             AFTER_SCRIPT: 'catkin build -w $target_ws --no-deps --verbose opw_kinematics --make-args test'}
+#          - {CI_NAME: CodeCov,
+#             OS_NAME: ubuntu,
+#             OS_CODE_NAME: bionic,
+#             ROS_DISTRO: melodic,
+#             ROS_REPO: main,
+#             TARGET_WORKSPACE: '. github:ros-industrial/cmake_common_scripts#master',
+#             ROSDEP_SKIP_KEYS: "iwyu cmake_common_scripts",
+#             CCACHE_DIR: "/home/runner/work/tesseract/tesseract/CodeCov/.ccache",
+#             TARGET_CMAKE_ARGS: "-DCMAKE_BUILD_TYPE=Debug -DOPW_ENABLE_TESTING=ON",
+#             AFTER_SCRIPT: 'catkin build -w $target_ws --no-deps --verbose opw_kinematics --make-args ccov-all
+#                            && bash <(curl -s https://codecov.io/bash) -t NeedToAddKey -s $target_ws/build -f *all-merged.info'}
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Free Disk Space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
+          df -h
+
+      - name: Prepare ccache timestamp
+        id: ccache_cache_timestamp
+        shell: cmake -P {0}
+        run: |
+          string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
+          message("::set-output name=timestamp::${current_date}")
+
+      - name: ccache cache files
+        uses: actions/cache@v1.1.0
+        with:
+          path: ${{ matrix.env.CI_NAME }}/.ccache
+          key: ${{ matrix.env.CI_NAME }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+          restore-keys: |
+            ${{ matrix.env.CI_NAME }}-ccache-
+
+      - uses: 'ros-industrial/industrial_ci@master'
+        env: ${{matrix.env}}

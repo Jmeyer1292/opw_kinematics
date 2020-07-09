@@ -3,73 +3,31 @@ sudo: required
 git:
   quiet: true
 
-env:
-  global:
-    - ROS_REPO=ros
-    - CMAKE_ARGS="-DOPW_ENABLE_TESTING=ON"
-    - UPSTREAM_WORKSPACE=file
-    - ROSINSTALL_FILENAME=dependencies.rosinstall
-    - ROSDEP_SKIP_KEYS='iwyu'
-
 jobs:
   include:
-    - os: linux
-      dist: xenial
-      language: cpp
-      env:
-      - ROS_DISTRO="kinetic"
-      - CCACHE_DIR=$HOME/.ccache
-      cache:
-        directories:
-          - $HOME/.ccache
-    - os: linux
-      dist: bionic
-      language: cpp
-      env:
-      - ROS_DISTRO="melodic"
-      - ADDITIONAL_DEBS='iwyu clang-5.0'
-      - CCACHE_DIR=$HOME/.ccache
-      cache:
-        directories:
-          - $HOME/.ccache
-    - os: linux
-      dist: focal
-      language: cpp
-      env:
-      - ROS_DISTRO="noetic"
-      - ADDITIONAL_DEBS='iwyu clang-9'
-      - CCACHE_DIR=$HOME/.ccache
-      - ROSDEP_SKIP_KEYS='iwyu cmake_common_scripts'
-      cache:
-        directories:
-          - $HOME/.ccache
     - os: windows
       language: cpp
 
 install:
-  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then git clone --quiet --depth=1 https://github.com/ros-industrial/industrial_ci.git .ci_config; fi
   - |
-    if [ "$TRAVIS_OS_NAME" = "windows" ]; then
-        unset CXX CXX_FOR_BUILD CC CC_FOR_BUILD
-        choco feature disable -n=showDownloadProgress
-        cd ..
-        mkdir -p catkin_ws/src
-        mv opw_kinematics catkin_ws/src/
-        cd catkin_ws        
-        choco uninstall mingw
-        wget https://raw.githubusercontent.com/johnwason/source_bat/master/source_bat.bash
-        source source_bat.bash 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat'
-        choco source add -n=ros-win -s="https://roswin.azurewebsites.net/api/v2" --priority=1
-        choco install ros-melodic-ros_base -y --execution-timeout=0
-        choco install llvm
-        source source_bat.bash 'c:\opt\ros\melodic\x64\setup.bat'
-        rosdep install --from-paths src --ignore-src -r -y
-        /c/opt/vcpkg/vcpkg.exe install jsoncpp:x64-windows
-        wstool init src
-        wstool merge -t src ./src/opw_kinematics/dependencies.rosinstall
-        wstool update -t src
-    fi
+    unset CXX CXX_FOR_BUILD CC CC_FOR_BUILD
+    choco feature disable -n=showDownloadProgress
+    cd ..
+    mkdir -p catkin_ws/src
+    mv opw_kinematics catkin_ws/src/
+    cd catkin_ws
+    choco uninstall mingw
+    wget https://raw.githubusercontent.com/johnwason/source_bat/master/source_bat.bash
+    source source_bat.bash 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvars64.bat'
+    choco source add -n=ros-win -s="https://roswin.azurewebsites.net/api/v2" --priority=1
+    choco install ros-melodic-ros_base -y --execution-timeout=0
+    choco install llvm
+    source source_bat.bash 'c:\opt\ros\melodic\x64\setup.bat'
+    rosdep install --from-paths src --ignore-src -r -y
+    /c/opt/vcpkg/vcpkg.exe install jsoncpp:x64-windows
+    wstool init src
+    wstool merge -t src ./src/opw_kinematics/dependencies.rosinstall
+    wstool update -t src
 
 script:
-  - if [ "$TRAVIS_OS_NAME" != "windows" ]; then .ci_config/travis.sh; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ]; then catkin_make_isolated -DCMAKE_BUILD_TYPE=Release -DOPW_ENABLE_TESTING=ON; fi
+  - catkin_make_isolated -DCMAKE_BUILD_TYPE=Release -DOPW_ENABLE_TESTING=ON

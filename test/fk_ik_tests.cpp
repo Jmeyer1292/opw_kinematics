@@ -4,27 +4,28 @@
 OPW_IGNORE_WARNINGS_PUSH
 #include <array>
 #include <chrono>
-#include <gtest/gtest.h>                             // IWYU pragma: keep
+#include <gtest/gtest.h>  // IWYU pragma: keep
 #include <random>
 OPW_IGNORE_WARNINGS_POP
 
-#include "opw_kinematics/opw_kinematics.h" // IWYU pragma: keep
+#include "opw_kinematics/opw_kinematics.h"  // IWYU pragma: keep
 #include "opw_kinematics/opw_parameters_examples.h"
 #include "opw_kinematics/opw_utilities.h"
-
 
 // Structure used for setting sampler parameters based on floating point type
 template <typename T>
 struct TestTolerance;
 
-template<>
-struct TestTolerance<float> {
+template <>
+struct TestTolerance<float>
+{
   static constexpr float TOLERANCE = 5e-4f;
   static constexpr const char* const NAME = "float";
 };
 
-template<>
-struct TestTolerance<double> {
+template <>
+struct TestTolerance<double>
+{
   static constexpr double TOLERANCE = 1e-10;
   static constexpr const char* const NAME = "double";
 };
@@ -56,7 +57,7 @@ void comparePoses(const Transform<T>& Ta, const Transform<T>& Tb, double toleran
 template <typename T>
 void getRandomJointValues(T* q)
 {
-  static std::default_random_engine en{ 42 };                  // random engine
+  static std::default_random_engine en{ 42 };                        // random engine
   static std::uniform_real_distribution<T> rg{ T(-M_PI), T(M_PI) };  // random generator
 
   q[0] = rg(en);
@@ -130,12 +131,12 @@ void runThroughputTests(const opw_kinematics::Parameters<T>& params)
 
     // Report FK timing
     const auto fk_dt_us = std::chrono::duration_cast<std::chrono::microseconds>(fk_end_tm - fk_start_tm).count();
-    std::cout << "Forward Kinematics " << TestTolerance<T>::NAME << " generated " << number_of_tests
-              << " poses in " << fk_dt_us << " us\n";
+    std::cout << "Forward Kinematics " << TestTolerance<T>::NAME << " generated " << number_of_tests << " poses in "
+              << fk_dt_us << " us\n";
     std::cout << "Average us per fk solve: " << static_cast<double>(fk_dt_us) / number_of_tests << "\n";
   }
 
-  std::array<T, 6*8> ik_sol_space;
+  std::array<T, 6 * 8> ik_sol_space;
   const auto ik_start_tm = std::chrono::steady_clock::now();
   for (std::size_t i = 0; i < number_of_tests; ++i)
   {
@@ -144,79 +145,79 @@ void runThroughputTests(const opw_kinematics::Parameters<T>& params)
   const auto ik_end_tm = std::chrono::steady_clock::now();
   // Report FK timing
   const auto ik_dt_us = std::chrono::duration_cast<std::chrono::microseconds>(ik_end_tm - ik_start_tm).count();
-  std::cout << "Inverse Kinematics " << TestTolerance<T>::NAME << " generated " << number_of_tests
-            << " poses in " << ik_dt_us << " us\n";
+  std::cout << "Inverse Kinematics " << TestTolerance<T>::NAME << " generated " << number_of_tests << " poses in "
+            << ik_dt_us << " us\n";
   std::cout << "Average us per ik solve: " << static_cast<double>(ik_dt_us) / number_of_tests << "\n";
 }
 
-TEST(kuka_kr6, random_reachable_poses_double) // NOLINT
+TEST(kuka_kr6, random_reachable_poses_double)  // NOLINT
 {
   const auto kukaKR6_R700_sixx = opw_kinematics::makeKukaKR6_R700_sixx<double>();
   runRandomReachablePosesTest(kukaKR6_R700_sixx);
 }
 
-TEST(kuka_kr6, random_reachable_poses_float) // NOLINT
+TEST(kuka_kr6, random_reachable_poses_float)  // NOLINT
 {
   const auto kukaKR6_R700_sixx = opw_kinematics::makeKukaKR6_R700_sixx<float>();
   runRandomReachablePosesTest(kukaKR6_R700_sixx);
 }
 
-TEST(kuka_kr6, throughput_tests_float) // NOLINT
+TEST(kuka_kr6, throughput_tests_float)  // NOLINT
 {
   const auto params = opw_kinematics::makeKukaKR6_R700_sixx<float>();
   runThroughputTests(params);
 }
 
-TEST(kuka_kr6, throughput_tests_double) // NOLINT
+TEST(kuka_kr6, throughput_tests_double)  // NOLINT
 {
   const auto params = opw_kinematics::makeKukaKR6_R700_sixx<double>();
   runThroughputTests(params);
 }
 
-TEST(abb_2400, throughput_tests_float) // NOLINT
+TEST(abb_2400, throughput_tests_float)  // NOLINT
 {
   const auto params = opw_kinematics::makeIrb2400_10<float>();
   runThroughputTests(params);
 }
 
-TEST(abb_2400, random_reachable_poses_double) // NOLINT
+TEST(abb_2400, random_reachable_poses_double)  // NOLINT
 {
   const auto params = opw_kinematics::makeIrb2400_10<double>();
   runRandomReachablePosesTest(params);
 }
 
-TEST(abb_2400, random_reachable_poses_float) // NOLINT
+TEST(abb_2400, random_reachable_poses_float)  // NOLINT
 {
-  const auto params= opw_kinematics::makeIrb2400_10<float>();
+  const auto params = opw_kinematics::makeIrb2400_10<float>();
   runRandomReachablePosesTest(params);
 }
 
-TEST(abb_2400, throughput_tests_double) // NOLINT
+TEST(abb_2400, throughput_tests_double)  // NOLINT
 {
   const auto params = opw_kinematics::makeIrb2400_10<double>();
   runThroughputTests(params);
 }
 
 OPW_IGNORE_WARNINGS_PUSH
-TEST(fanuc_r2000, random_reachable_poses_double) // NOLINT
+TEST(fanuc_r2000, random_reachable_poses_double)  // NOLINT
 {
   const auto params = opw_kinematics::makeFanucR2000iB_200R<double>();
   runRandomReachablePosesTest(params);
 }
 
-TEST(fanuc_r2000, random_reachable_poses_float) // NOLINT
+TEST(fanuc_r2000, random_reachable_poses_float)  // NOLINT
 {
-  const auto params= opw_kinematics::makeFanucR2000iB_200R<float>();
+  const auto params = opw_kinematics::makeFanucR2000iB_200R<float>();
   runRandomReachablePosesTest(params);
 }
 
-TEST(fanuc_r2000, throughput_tests_float) // NOLINT
+TEST(fanuc_r2000, throughput_tests_float)  // NOLINT
 {
   const auto params = opw_kinematics::makeFanucR2000iB_200R<float>();
   runThroughputTests(params);
 }
 
-TEST(fanuc_r2000, throughput_tests_double) // NOLINT
+TEST(fanuc_r2000, throughput_tests_double)  // NOLINT
 {
   const auto params = opw_kinematics::makeFanucR2000iB_200R<double>();
   runThroughputTests(params);

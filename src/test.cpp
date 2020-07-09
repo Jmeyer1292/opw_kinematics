@@ -3,12 +3,12 @@
 #include <array>
 
 // IWYU pragma: no_include "opw_kinematics/opw_kinematics_impl.h"
-#include "opw_kinematics/opw_utilities.h" // IWYU pragma: keep
+#include "opw_kinematics/opw_utilities.h"  // IWYU pragma: keep
 #include "opw_kinematics/opw_parameters_examples.h"
 
 void printResults(const std::array<double, 6 * 8>& sols)
 {
-  std::cout <<  std::setprecision(5) << std::fixed;
+  std::cout << std::setprecision(5) << std::fixed;
   for (int i = 0; i < 8; ++i)
   {
     for (int j = 0; j < 6; ++j)

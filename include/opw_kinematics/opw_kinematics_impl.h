@@ -34,10 +34,8 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noex
 
   T s1 = std::sqrt(s1_2);
   T s2 = std::sqrt(s2_2);
-  T theta2_i = -std::acos(tmp5 / (T(2.0) * s1 * params.c2)) +
-                    std::atan2(nx1, c.z() - params.c1);
-  T theta2_ii = std::acos(tmp5 / (T(2.0) * s1 * params.c2)) +
-                     std::atan2(nx1, c.z() - params.c1);
+  T theta2_i = -std::acos(tmp5 / (T(2.0) * s1 * params.c2)) + std::atan2(nx1, c.z() - params.c1);
+  T theta2_ii = std::acos(tmp5 / (T(2.0) * s1 * params.c2)) + std::atan2(nx1, c.z() - params.c1);
 
   T tmp6 = s2_2 + c2_2 - kappa_2;
 
@@ -63,12 +61,12 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noex
 
   sin1[0] = std::sin(theta1_i);
   sin1[1] = std::sin(theta1_i);
-  sin1[2] = std::sin(theta1_ii); // ???
+  sin1[2] = std::sin(theta1_ii);  // ???
   sin1[3] = std::sin(theta1_ii);
 
   cos1[0] = std::cos(theta1_i);
   cos1[1] = std::cos(theta1_i);
-  cos1[2] = std::cos(theta1_ii); // ???
+  cos1[2] = std::cos(theta1_ii);  // ???
   cos1[3] = std::cos(theta1_ii);
 
   s23[0] = std::sin(theta2_i + theta3_i);
@@ -82,22 +80,22 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noex
   c23[3] = std::cos(theta2_iv + theta3_iv);
 
   T m[4];
-  m[0] = matrix(0,2) * s23[0] * cos1[0] + matrix(1,2) * s23[0] * sin1[0] + matrix(2,2) * c23[0];
-  m[1] = matrix(0,2) * s23[1] * cos1[1] + matrix(1,2) * s23[1] * sin1[1] + matrix(2,2) * c23[1];
-  m[2] = matrix(0,2) * s23[2] * cos1[2] + matrix(1,2) * s23[2] * sin1[2] + matrix(2,2) * c23[2];
-  m[3] = matrix(0,2) * s23[3] * cos1[3] + matrix(1,2) * s23[3] * sin1[3] + matrix(2,2) * c23[3];
+  m[0] = matrix(0, 2) * s23[0] * cos1[0] + matrix(1, 2) * s23[0] * sin1[0] + matrix(2, 2) * c23[0];
+  m[1] = matrix(0, 2) * s23[1] * cos1[1] + matrix(1, 2) * s23[1] * sin1[1] + matrix(2, 2) * c23[1];
+  m[2] = matrix(0, 2) * s23[2] * cos1[2] + matrix(1, 2) * s23[2] * sin1[2] + matrix(2, 2) * c23[2];
+  m[3] = matrix(0, 2) * s23[3] * cos1[3] + matrix(1, 2) * s23[3] * sin1[3] + matrix(2, 2) * c23[3];
 
-  T theta4_i = std::atan2(matrix(1,2) * cos1[0] - matrix(0,2) * sin1[0],
-                   matrix(0,2) * c23[0] * cos1[0] + matrix(1,2) * c23[0] * sin1[0] - matrix(2,2) * s23[0]);
+  T theta4_i = std::atan2(matrix(1, 2) * cos1[0] - matrix(0, 2) * sin1[0],
+                          matrix(0, 2) * c23[0] * cos1[0] + matrix(1, 2) * c23[0] * sin1[0] - matrix(2, 2) * s23[0]);
 
-  T theta4_ii = std::atan2(matrix(1,2) * cos1[1] - matrix(0,2) * sin1[1],
-                   matrix(0,2) * c23[1] * cos1[1] + matrix(1,2) * c23[1] * sin1[1] - matrix(2,2) * s23[1]);
+  T theta4_ii = std::atan2(matrix(1, 2) * cos1[1] - matrix(0, 2) * sin1[1],
+                           matrix(0, 2) * c23[1] * cos1[1] + matrix(1, 2) * c23[1] * sin1[1] - matrix(2, 2) * s23[1]);
 
-  T theta4_iii = std::atan2(matrix(1,2) * cos1[2] - matrix(0,2) * sin1[2],
-                   matrix(0,2) * c23[2] * cos1[2] + matrix(1,2) * c23[2] * sin1[2] - matrix(2,2) * s23[2]);
+  T theta4_iii = std::atan2(matrix(1, 2) * cos1[2] - matrix(0, 2) * sin1[2],
+                            matrix(0, 2) * c23[2] * cos1[2] + matrix(1, 2) * c23[2] * sin1[2] - matrix(2, 2) * s23[2]);
 
-  T theta4_iv = std::atan2(matrix(1,2) * cos1[3] - matrix(0,2) * sin1[3],
-                   matrix(0,2) * c23[3] * cos1[3] + matrix(1,2) * c23[3] * sin1[3] - matrix(2,2) * s23[3]);
+  T theta4_iv = std::atan2(matrix(1, 2) * cos1[3] - matrix(0, 2) * sin1[3],
+                           matrix(0, 2) * c23[3] * cos1[3] + matrix(1, 2) * c23[3] * sin1[3] - matrix(2, 2) * s23[3]);
 
   T theta4_v = theta4_i + T(M_PI);
   T theta4_vi = theta4_ii + T(M_PI);
@@ -114,17 +112,17 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noex
   T theta5_vii = -theta5_iii;
   T theta5_viii = -theta5_iv;
 
-  T theta6_i = std::atan2(matrix(0,1) * s23[0] * cos1[0] + matrix(1,1) * s23[0] * sin1[0] + matrix(2,1) * c23[0],
-                          -matrix(0,0) * s23[0] * cos1[0] - matrix(1, 0) * s23[0] * sin1[0] - matrix(2,0) * c23[0]);
+  T theta6_i = std::atan2(matrix(0, 1) * s23[0] * cos1[0] + matrix(1, 1) * s23[0] * sin1[0] + matrix(2, 1) * c23[0],
+                          -matrix(0, 0) * s23[0] * cos1[0] - matrix(1, 0) * s23[0] * sin1[0] - matrix(2, 0) * c23[0]);
 
-  T theta6_ii = std::atan2(matrix(0,1) * s23[1] * cos1[1] + matrix(1,1) * s23[1] * sin1[1] + matrix(2,1) * c23[1],
-                          -matrix(0,0) * s23[1] * cos1[1] - matrix(1, 0) * s23[1] * sin1[1] - matrix(2,0) * c23[1]);
+  T theta6_ii = std::atan2(matrix(0, 1) * s23[1] * cos1[1] + matrix(1, 1) * s23[1] * sin1[1] + matrix(2, 1) * c23[1],
+                           -matrix(0, 0) * s23[1] * cos1[1] - matrix(1, 0) * s23[1] * sin1[1] - matrix(2, 0) * c23[1]);
 
-  T theta6_iii = std::atan2(matrix(0,1) * s23[2] * cos1[2] + matrix(1,1) * s23[2] * sin1[2] + matrix(2,1) * c23[2],
-                          -matrix(0,0) * s23[2] * cos1[2] - matrix(1, 0) * s23[2] * sin1[2] - matrix(2,0) * c23[2]);
+  T theta6_iii = std::atan2(matrix(0, 1) * s23[2] * cos1[2] + matrix(1, 1) * s23[2] * sin1[2] + matrix(2, 1) * c23[2],
+                            -matrix(0, 0) * s23[2] * cos1[2] - matrix(1, 0) * s23[2] * sin1[2] - matrix(2, 0) * c23[2]);
 
-  T theta6_iv = std::atan2(matrix(0,1) * s23[3] * cos1[3] + matrix(1,1) * s23[3] * sin1[3] + matrix(2,1) * c23[3],
-                          -matrix(0,0) * s23[3] * cos1[3] - matrix(1, 0) * s23[3] * sin1[3] - matrix(2,0) * c23[3]);
+  T theta6_iv = std::atan2(matrix(0, 1) * s23[3] * cos1[3] + matrix(1, 1) * s23[3] * sin1[3] + matrix(2, 1) * c23[3],
+                           -matrix(0, 0) * s23[3] * cos1[3] - matrix(1, 0) * s23[3] * sin1[3] - matrix(2, 0) * c23[3]);
 
   T theta6_v = theta6_i - T(M_PI);
   T theta6_vi = theta6_ii - T(M_PI);
@@ -138,14 +136,14 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noex
   out[6 * 0 + 4] = (theta5_i + params.offsets[4]) * params.sign_corrections[4];
   out[6 * 0 + 5] = (theta6_i + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 1 + 0] = (theta1_i  + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 1 + 0] = (theta1_i + params.offsets[0]) * params.sign_corrections[0];
   out[6 * 1 + 1] = (theta2_ii + params.offsets[1]) * params.sign_corrections[1];
   out[6 * 1 + 2] = (theta3_ii + params.offsets[2]) * params.sign_corrections[2];
   out[6 * 1 + 3] = (theta4_ii + params.offsets[3]) * params.sign_corrections[3];
   out[6 * 1 + 4] = (theta5_ii + params.offsets[4]) * params.sign_corrections[4];
   out[6 * 1 + 5] = (theta6_ii + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 2 + 0] = (theta1_ii  + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 2 + 0] = (theta1_ii + params.offsets[0]) * params.sign_corrections[0];
   out[6 * 2 + 1] = (theta2_iii + params.offsets[1]) * params.sign_corrections[1];
   out[6 * 2 + 2] = (theta3_iii + params.offsets[2]) * params.sign_corrections[2];
   out[6 * 2 + 3] = (theta4_iii + params.offsets[3]) * params.sign_corrections[3];
@@ -166,23 +164,23 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noex
   out[6 * 4 + 4] = (theta5_v + params.offsets[4]) * params.sign_corrections[4];
   out[6 * 4 + 5] = (theta6_v + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 5 + 0] = (theta1_i  + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 5 + 0] = (theta1_i + params.offsets[0]) * params.sign_corrections[0];
   out[6 * 5 + 1] = (theta2_ii + params.offsets[1]) * params.sign_corrections[1];
   out[6 * 5 + 2] = (theta3_ii + params.offsets[2]) * params.sign_corrections[2];
   out[6 * 5 + 3] = (theta4_vi + params.offsets[3]) * params.sign_corrections[3];
   out[6 * 5 + 4] = (theta5_vi + params.offsets[4]) * params.sign_corrections[4];
   out[6 * 5 + 5] = (theta6_vi + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 6 + 0] = (theta1_ii  + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 6 + 0] = (theta1_ii + params.offsets[0]) * params.sign_corrections[0];
   out[6 * 6 + 1] = (theta2_iii + params.offsets[1]) * params.sign_corrections[1];
   out[6 * 6 + 2] = (theta3_iii + params.offsets[2]) * params.sign_corrections[2];
   out[6 * 6 + 3] = (theta4_vii + params.offsets[3]) * params.sign_corrections[3];
   out[6 * 6 + 4] = (theta5_vii + params.offsets[4]) * params.sign_corrections[4];
   out[6 * 6 + 5] = (theta6_vii + params.offsets[5]) * params.sign_corrections[5];
 
-  out[6 * 7 + 0] = (theta1_ii   + params.offsets[0]) * params.sign_corrections[0];
-  out[6 * 7 + 1] = (theta2_iv   + params.offsets[1]) * params.sign_corrections[1];
-  out[6 * 7 + 2] = (theta3_iv   + params.offsets[2]) * params.sign_corrections[2];
+  out[6 * 7 + 0] = (theta1_ii + params.offsets[0]) * params.sign_corrections[0];
+  out[6 * 7 + 1] = (theta2_iv + params.offsets[1]) * params.sign_corrections[1];
+  out[6 * 7 + 2] = (theta3_iv + params.offsets[2]) * params.sign_corrections[2];
   out[6 * 7 + 3] = (theta4_viii + params.offsets[3]) * params.sign_corrections[3];
   out[6 * 7 + 4] = (theta5_viii + params.offsets[4]) * params.sign_corrections[4];
   out[6 * 7 + 5] = (theta6_viii + params.offsets[5]) * params.sign_corrections[5];
@@ -228,34 +226,34 @@ Transform<T> forward(const Parameters<T>& p, const T* qs) noexcept
   T c6 = std::cos(q[5]);
 
   Matrix r_0c;
-  r_0c(0,0) = c1 * c2 * c3- c1 * s2 * s3;
-  r_0c(0,1) = -s1;
-  r_0c(0,2) = c1*c2*s3+c1*s2*c3;
+  r_0c(0, 0) = c1 * c2 * c3 - c1 * s2 * s3;
+  r_0c(0, 1) = -s1;
+  r_0c(0, 2) = c1 * c2 * s3 + c1 * s2 * c3;
 
-  r_0c(1,0) = s1*c2*c3-s1*s2*s3;
-  r_0c(1,1) = c1;
-  r_0c(1,2) = s1*c2*s3+s1*s2*c3;
+  r_0c(1, 0) = s1 * c2 * c3 - s1 * s2 * s3;
+  r_0c(1, 1) = c1;
+  r_0c(1, 2) = s1 * c2 * s3 + s1 * s2 * c3;
 
-  r_0c(2,0) = -s2*c3-c2*s3;
-  r_0c(2,1) = 0;
-  r_0c(2,2) = -s2*s3+c2*c3;
+  r_0c(2, 0) = -s2 * c3 - c2 * s3;
+  r_0c(2, 1) = 0;
+  r_0c(2, 2) = -s2 * s3 + c2 * c3;
 
   Matrix r_ce;
-  r_ce(0,0) = c4*c5*c6-s4*s6;
-  r_ce(0,1) = -c4*c5*s6-s4*c6;
-  r_ce(0,2) = c4 * s5;
+  r_ce(0, 0) = c4 * c5 * c6 - s4 * s6;
+  r_ce(0, 1) = -c4 * c5 * s6 - s4 * c6;
+  r_ce(0, 2) = c4 * s5;
 
-  r_ce(1,0) = s4*c5*c6+c4*s6;
-  r_ce(1,1) = -s4*c5*s6+c4*c6;
-  r_ce(1,2) = s4*s5;
+  r_ce(1, 0) = s4 * c5 * c6 + c4 * s6;
+  r_ce(1, 1) = -s4 * c5 * s6 + c4 * c6;
+  r_ce(1, 2) = s4 * s5;
 
-  r_ce(2,0) = -s5*c6;
-  r_ce(2,1) =  s5*s6 ;
-  r_ce(2,2) = c5;
+  r_ce(2, 0) = -s5 * c6;
+  r_ce(2, 1) = s5 * s6;
+  r_ce(2, 2) = c5;
 
   Matrix r_oe = r_0c * r_ce;
 
-  //Note: do not use auto here, leads to lazy evalutation which
+  // Note: do not use auto here, leads to lazy evalutation which
   // seems to be buggy on at least some setups and uses uninitialized data
   Vector u = Vector(cx0, cy0, cz0) + p.c4 * r_oe * Vector::UnitZ();
 

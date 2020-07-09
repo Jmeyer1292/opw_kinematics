@@ -1,12 +1,11 @@
 #ifndef OPW_KINEMATICS_H
 #define OPW_KINEMATICS_H
 
-#include <Eigen/Dense> // IWYU pragma: export
-#include "opw_kinematics/opw_parameters.h" // IWYU pragma: export
+#include <Eigen/Dense>                      // IWYU pragma: export
+#include "opw_kinematics/opw_parameters.h"  // IWYU pragma: export
 
 namespace opw_kinematics
 {
-
 /**
  * Typedef equivalent to Eigen::Isometry3d for T = double and Eigen::Isometry3f for
  * T = float.
@@ -41,8 +40,8 @@ void inverse(const Parameters<T>& params, const Transform<T>& pose, T* out) noex
 template <typename T>
 Transform<T> forward(const Parameters<T>& p, const T* qs) noexcept;
 
-#include "opw_kinematics/opw_kinematics_impl.h" // IWYU pragma: export
+#include "opw_kinematics/opw_kinematics_impl.h"  // IWYU pragma: export
 
-} // end namespace opw_kinematics
+}  // end namespace opw_kinematics
 
-#endif // OPW_KINEMATICS_H
+#endif  // OPW_KINEMATICS_H

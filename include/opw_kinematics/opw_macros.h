@@ -1,6 +1,8 @@
 #ifndef OPW_MACROS_H
 #define OPW_MACROS_H
 
+// clang-format off
+
 #if defined(__GNUC__) || defined(__clang__)
 #define DEPRECATED(X) __attribute__((deprecated(X)))
 #elif defined(_MSC_VER)
@@ -27,5 +29,5 @@
 #define DEPRECATED(X)
 #endif
 
-
-#endif // OPW_MACROS_H
+// clang-format on
+#endif  // OPW_MACROS_H

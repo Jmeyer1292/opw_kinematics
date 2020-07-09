@@ -5,7 +5,6 @@
 
 namespace opw_kinematics
 {
-
 template <typename T>
 inline bool isValid(const T* qs)
 {
@@ -19,13 +18,15 @@ inline void harmonizeTowardZero(T* qs)
   const static auto pi = T(M_PI);
   const static auto two_pi = T(2.0 * M_PI);
 
-  for (int i = 0; i < 6; i++) // TODO: Unroll manually?
+  for (int i = 0; i < 6; i++)  // TODO: Unroll manually?
   {
-    if (qs[i] > pi) qs[i] -= two_pi;
-    else if (qs[i] < -pi) qs[i] += two_pi;
+    if (qs[i] > pi)
+      qs[i] -= two_pi;
+    else if (qs[i] < -pi)
+      qs[i] += two_pi;
   }
 }
 
-}
+}  // namespace opw_kinematics
 
-#endif // OPW_UTILITIES_H
+#endif  // OPW_UTILITIES_H

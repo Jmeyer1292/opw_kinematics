@@ -2,19 +2,15 @@
 #define OPW_IO_H
 
 #include <iostream>
-#include "opw_kinematics/opw_parameters.h" // IWYU pragma: export
+#include "opw_kinematics/opw_parameters.h"  // IWYU pragma: export
 
 namespace opw_kinematics
 {
-
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Parameters<T>& params)
 {
-  os << "Distances: [" << params.a1 << " "
-     << params.a2 << " "
-     << params.b << " " << params.c1 << " "
-     << params.c2 << " " << params.c3 << " "
-     << params.c4 << "]\n";
+  os << "Distances: [" << params.a1 << " " << params.a2 << " " << params.b << " " << params.c1 << " " << params.c2
+     << " " << params.c3 << " " << params.c4 << "]\n";
   os << "Offsets = [";
   for (std::size_t i = 0; i < 6; ++i)
   {
@@ -29,6 +25,6 @@ std::ostream& operator<<(std::ostream& os, const Parameters<T>& params)
   return os;
 }
 
-} // namespace opw_kinematics
+}  // namespace opw_kinematics
 
-#endif // OPW_IO_H
+#endif  // OPW_IO_H

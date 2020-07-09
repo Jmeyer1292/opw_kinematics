@@ -1,12 +1,12 @@
 #include <opw_kinematics/opw_macros.h>
 OPW_IGNORE_WARNINGS_PUSH
-#include <gtest/gtest.h>                             // IWYU pragma: keep
-#include <cstdlib>                                   // for abs, size_t
-#include <array>                                     // for array
-#include <cmath>                                     // for fmod, M_PI, isnan
-#include <iomanip>                                   // for operator<<, setp...
-#include <iostream>                                  // for operator<<, basi...
-#include <vector>                                    // for vector
+#include <gtest/gtest.h>  // IWYU pragma: keep
+#include <cstdlib>        // for abs, size_t
+#include <array>          // for array
+#include <cmath>          // for fmod, M_PI, isnan
+#include <iomanip>        // for operator<<, setp...
+#include <iostream>       // for operator<<, basi...
+#include <vector>         // for vector
 #include "ikfast.h"
 OPW_IGNORE_WARNINGS_POP
 
@@ -17,10 +17,7 @@ using Transform = opw_kinematics::Transform<double>;
 
 struct PoseGenerator
 {
-  PoseGenerator()
-  {
-    index = 0;
-  }
+  PoseGenerator() { index = 0; }
 
   Transform operator()()
   {
@@ -53,15 +50,14 @@ void solveIKFast(const Transform& p, ikfast::IkSolutionList<double>& sols)
   {
     for (int j = 0; j < 3; ++j)
     {
-      eerot[i * 3 + j] = p.matrix()(i,j);
+      eerot[i * 3 + j] = p.matrix()(i, j);
     }
   }
 
   ComputeIk(eetrans, eerot, pfree, sols);
 }
 
-void solveOPW(const opw_kinematics::Parameters<double>& param, const Transform& p,
-              std::array<double, 6 * 8>& sols)
+void solveOPW(const opw_kinematics::Parameters<double>& param, const Transform& p, std::array<double, 6 * 8>& sols)
 {
   opw_kinematics::inverse(param, p, sols.data());
 }
@@ -80,11 +76,11 @@ size_t countValidSolutions(const std::array<double, 6 * 8>& opw)
         break;
       }
     }
-    if (is_valid) count++;
+    if (is_valid)
+      count++;
   }
   return count;
 }
-
 
 /*!
  * \brief normalize_angle_positive
@@ -94,9 +90,8 @@ size_t countValidSolutions(const std::array<double, 6 * 8>& opw)
  */
 static inline double normalize_angle_positive(double angle)
 {
-  return fmod(fmod(angle, 2.0*M_PI) + 2.0*M_PI, 2.0*M_PI);
+  return fmod(fmod(angle, 2.0 * M_PI) + 2.0 * M_PI, 2.0 * M_PI);
 }
-
 
 /*!
  * \brief normalize
@@ -109,10 +104,9 @@ static inline double normalize_angle(double angle)
 {
   double a = normalize_angle_positive(angle);
   if (a > M_PI)
-    a -= 2.0 *M_PI;
+    a -= 2.0 * M_PI;
   return a;
 }
-
 
 /*!
  * \function
@@ -126,11 +120,7 @@ static inline double normalize_angle(double angle)
  * to "from" will always get you an equivelent angle to "to".
  */
 
-static inline double shortest_angular_distance(double from, double to)
-{
-  return normalize_angle(to-from);
-}
-
+static inline double shortest_angular_distance(double from, double to) { return normalize_angle(to - from); }
 
 bool findSolInSet(const std::vector<double>& s, const std::array<double, 6 * 8>& opw)
 {
@@ -139,9 +129,9 @@ bool findSolInSet(const std::vector<double>& s, const std::array<double, 6 * 8>&
     bool is_same = true;
     for (int j = 0; j < 6; ++j)
     {
-      double value = opw[i*6 + j];
-//      if (value > M_PI) value -= 2*M_PI;
-//      if (value < -M_PI) value += 2*M_PI;
+      double value = opw[i * 6 + j];
+      //      if (value > M_PI) value -= 2*M_PI;
+      //      if (value < -M_PI) value += 2*M_PI;
       double diff = std::abs(shortest_angular_distance(s[j], value));
       if (diff > 1e-6)
       {
@@ -149,14 +139,15 @@ bool findSolInSet(const std::vector<double>& s, const std::array<double, 6 * 8>&
         break;
       }
     }
-    if (is_same) return true;
+    if (is_same)
+      return true;
   }
   return false;
 }
 
 void printResults(const std::array<double, 6 * 8>& sols)
 {
-  std::cout <<  std::setprecision(5) << std::fixed;
+  std::cout << std::setprecision(5) << std::fixed;
   for (int i = 0; i < 8; ++i)
   {
     for (int j = 0; j < 6; ++j)
@@ -173,10 +164,11 @@ void compare(ikfast::IkSolutionList<double>& ikf, std::array<double, 6 * 8>& opw
   bool equal_num = num_ikf_sols == num_opw_sols;
   EXPECT_TRUE(equal_num);
 
-  if (!equal_num) return;
+  if (!equal_num)
+    return;
 
   // lets compare solutions
-  std::vector<double> v (6);
+  std::vector<double> v(6);
   for (decltype(num_ikf_sols) i = 0; i < num_ikf_sols; ++i)
   {
     ikf.GetSolution(i).GetSolution(v.data(), nullptr);
@@ -184,16 +176,14 @@ void compare(ikfast::IkSolutionList<double>& ikf, std::array<double, 6 * 8>& opw
     EXPECT_TRUE(found_sol_in_opw);
     if (!found_sol_in_opw)
     {
-      std::cout << v[0] << " " << v[1] << " " << v[2] << " " << v[3] << " " << v[4] << " "
-                << v[5] << "\n";
+      std::cout << v[0] << " " << v[1] << " " << v[2] << " " << v[3] << " " << v[4] << " " << v[5] << "\n";
 
       printResults(opw);
     }
   }
-
 }
 
-TEST(ikfast_to_opw, similar_solutions) // NOLINT
+TEST(ikfast_to_opw, similar_solutions)  // NOLINT
 {
   // IK-Fast is implicitly instantiated
 
@@ -220,8 +210,7 @@ TEST(ikfast_to_opw, similar_solutions) // NOLINT
   }
 }
 
-
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

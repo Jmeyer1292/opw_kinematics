@@ -4,18 +4,21 @@ project(opw_kinematics VERSION 0.1.0 LANGUAGES CXX)
 find_package(Eigen3 REQUIRED)
 find_package(cmake_common_scripts REQUIRED)
 
-add_code_coverage_all_targets()
-
 if(NOT EIGEN3_INCLUDE_DIRS)
   set(EIGEN3_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
 endif()
 
+# If testing is enabled the clang tidy will errors instead of warning. The -line-filter option is added so the two files
+# ikfast.h and abb_irb2400_manipulator_ikfast_solver.cpp are not processed by clang tidy since these are auto generated
+# file from ikfast.
 if(OPW_ENABLE_TESTING)
   set(CLANG_ARGS "-line-filter=[{'name':'ikfast.h','lines':[[9999999,9999999]]}, {'name':'abb_irb2400_manipulator_ikfast_solver.cpp','lines':[[9999999,9999999]]}, {'name':'.h'}, {'name':'.hpp'}, {'name':'.cpp'}]" ${DEFAULT_CLANG_TIDY_ERROR_ARGS})
 else()
-  set(OPW_ENABLE_TESTING OFF)
+  set(OPW_ENABLE_TESTING OFF) # Since this is being passed to the macros it must have a value otherwise it causes issues
   set(CLANG_ARGS "-line-filter=[{'name':'ikfast.h','lines':[[9999999,9999999]]}, {'name':'abb_irb2400_manipulator_ikfast_solver.cpp','lines':[[9999999,9999999]]}, {'name':'.h'}, {'name':'.hpp'}, {'name':'.cpp'}]" ${DEFAULT_CLANG_TIDY_WARNING_ARGS})
 endif()
+
+add_code_coverage_all_targets(ENABLE ${OPW_ENABLE_TESTING})
 
 # Create interface target
 add_library(${PROJECT_NAME} INTERFACE)
@@ -40,7 +43,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM INTERFACE
 add_executable(${PROJECT_NAME}_node src/test.cpp)
 target_link_libraries(${PROJECT_NAME}_node PRIVATE ${PROJECT_NAME})
 set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
-target_cxx_version(${PROJECT_NAME}_node PUBLIC VERSION 11)
+target_cxx_version(${PROJECT_NAME}_node PRIVATE VERSION 11)
 
 if(NOT MSVC)
   target_compile_options(${PROJECT_NAME}_node PRIVATE -Wall -Wextra)

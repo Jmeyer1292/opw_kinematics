@@ -1,7 +1,7 @@
 #ifndef OPW_KINEMATICS_H
 #define OPW_KINEMATICS_H
 
-#include <Eigen/Dense>                      // IWYU pragma: export
+#include <Eigen/Dense>                      // IWYU pragma: keep
 #include "opw_kinematics/opw_parameters.h"  // IWYU pragma: export
 
 namespace opw_kinematics

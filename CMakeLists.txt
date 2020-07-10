@@ -27,7 +27,6 @@ target_link_libraries(${PROJECT_NAME} INTERFACE)
 target_cxx_version(${PROJECT_NAME} INTERFACE VERSION 11)
 
 if(NOT MSVC)
-  target_compile_options(${PROJECT_NAME} INTERFACE -std=c++11) # This is requred for iwyu, issue with cmake
   target_compile_options(${PROJECT_NAME} INTERFACE -Wall -Wextra)
   target_clang_tidy(${PROJECT_NAME} ENABLE ${OPW_ENABLE_TESTING} ARGUMENTS ${CLANG_ARGS})
   target_code_coverage(${PROJECT_NAME} INTERFACE ALL ENABLE ${OPW_ENABLE_TESTING})

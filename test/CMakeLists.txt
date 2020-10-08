@@ -13,12 +13,18 @@ if ( NOT ${GTest_FOUND} )
             -DBUILD_GMOCK:BOOL=OFF
             -DBUILD_GTEST:BOOL=ON
             -DBUILD_SHARED_LIBS:BOOL=ON
+            -DGTEST_CREATE_SHARED_LIBRARY=1
   )
 
   file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/include)
   set(GTEST_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/include)
-  set(GTEST_LIBRARIES ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/lib/libgtest.so)
-  set(GTEST_MAIN_LIBRARIES ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/lib/libgtest_main.so)
+  if (MSVC)
+    set(GTEST_LIBRARIES ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/bin/libgtest.dll)
+    set(GTEST_MAIN_LIBRARIES ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/bin/libgtest_main.dll)
+  else()
+    set(GTEST_LIBRARIES ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/lib/libgtest.so)
+    set(GTEST_MAIN_LIBRARIES ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/lib/libgtest_main.so)
+  endif()
 endif()
 
 if(NOT TARGET GTest::GTest)

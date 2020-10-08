@@ -18,6 +18,10 @@ else()
   set(CLANG_ARGS "-line-filter=[{'name':'ikfast.h','lines':[[9999999,9999999]]}, {'name':'abb_irb2400_manipulator_ikfast_solver.cpp','lines':[[9999999,9999999]]}, {'name':'.h'}, {'name':'.hpp'}, {'name':'.cpp'}]" ${DEFAULT_CLANG_TIDY_WARNING_ARGS})
 endif()
 
+if (NOT DEFINED OPW_ENABLE_RUN_TESTING)
+  set(OPW_ENABLE_RUN_TESTING OFF)
+endif()
+
 add_code_coverage_all_targets(ENABLE ${OPW_ENABLE_TESTING})
 
 # Create interface target
@@ -69,6 +73,6 @@ install(DIRECTORY include/${PROJECT_NAME}
 #############
 if (OPW_ENABLE_TESTING)
   enable_testing()
-  add_run_tests_target()
+  add_run_tests_target(ENABLE OPW_ENABLE_RUN_TESTING)
   add_subdirectory(test)
 endif()

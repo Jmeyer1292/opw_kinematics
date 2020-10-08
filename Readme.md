@@ -12,6 +12,15 @@ is extremely common in industrial robots.
 The kinematics are parameterized by 7 primary values taken directly from the robot's spec sheet
 and a set of joint-zero offsets. Given this structure, no other setup is required.
 
+# Build Status
+
+Platform             | CI Status
+---------------------|:---------
+Linux (Focal)        | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/workflows/Focal-Build/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions)
+Linux (Bionic)       | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/workflows/Bionic-Build/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions)
+Linux (Xenial)       | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/workflows/Xenial-Build/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions)
+Windows              | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/workflows/Windows-Build/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions)
+Lint  (Clang-Format) | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/workflows/Clang-Format/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions)
 
 # Parameters
 

@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.5.0)
-project(opw_kinematics VERSION 0.2.0 LANGUAGES CXX)
+
+# Extract package name and version
+find_package(cmake_common_scripts REQUIRED)
+extract_package_metadata(pkg)
+project(${pkg_extracted_name} VERSION ${pkg_extracted_version} LANGUAGES CXX)
 
 find_package(Eigen3 REQUIRED)
-find_package(cmake_common_scripts REQUIRED)
-
 if(NOT EIGEN3_INCLUDE_DIRS)
   set(EIGEN3_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
 endif()

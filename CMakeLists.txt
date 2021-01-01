@@ -24,7 +24,10 @@ if (NOT DEFINED OPW_ENABLE_RUN_TESTING)
   set(OPW_ENABLE_RUN_TESTING OFF)
 endif()
 
-add_code_coverage_all_targets(ENABLE ${OPW_ENABLE_TESTING})
+if(NOT MSVC)
+  initialize_code_coverage()
+  add_code_coverage_all_targets(ENABLE ${OPW_ENABLE_TESTING})
+endif()
 
 # Create interface target
 add_library(${PROJECT_NAME} INTERFACE)

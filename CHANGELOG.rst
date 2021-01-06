@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.0 (2021-01-06)
+------------------
 * Extract package name and version from package.xml
 * Update CI build and add badges to readme
 * Remove -std=c++11 compile option. This causes problems in downstream packages that add cxx_std_14 to compile features.

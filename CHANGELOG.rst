@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.3.1 (2021-01-06)
+------------------
 * Update to use initialize_code_coverage() macro
 * Contributors: Levi Armstrong
 

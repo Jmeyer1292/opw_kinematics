@@ -21,7 +21,7 @@ jobs:
       TARGET_WORKSPACE: '. github:ros-industrial/cmake_common_scripts#master'
       ROSDEP_SKIP_KEYS: "iwyu cmake_common_scripts"
       CCACHE_DIR: "/home/runner/work/opw_kinematics/opw_kinematics/Focal-Build/.ccache"
-      BEFORE_RUN_TARGET_TEST_EMBED: "source /root/target_ws/install/setup.bash"
+      BEFORE_RUN_TARGET_TEST_EMBED: "ici_with_unset_variables source /root/target_ws/install/setup.bash"
       TARGET_CMAKE_ARGS: "-DCMAKE_BUILD_TYPE=Debug -DOPW_ENABLE_TESTING=ON"
     steps:
       - uses: actions/checkout@v2

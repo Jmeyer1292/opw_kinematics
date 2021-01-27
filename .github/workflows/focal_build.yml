@@ -18,8 +18,8 @@ jobs:
       OS_CODE_NAME: focal
       ROS_DISTRO: noetic
       ROS_REPO: main
-      TARGET_WORKSPACE: '. github:ros-industrial/cmake_common_scripts#master'
-      ROSDEP_SKIP_KEYS: "iwyu cmake_common_scripts"
+      UPSTREAM_WORKSPACE: 'dependencies.rosinstall'
+      ROSDEP_SKIP_KEYS: "iwyu ros_industrial_cmake_boilerplate"
       CCACHE_DIR: "/home/runner/work/opw_kinematics/opw_kinematics/Focal-Build/.ccache"
       BEFORE_RUN_TARGET_TEST_EMBED: "ici_with_unset_variables source /root/target_ws/install/setup.bash"
       TARGET_CMAKE_ARGS: "-DCMAKE_BUILD_TYPE=Debug -DOPW_ENABLE_TESTING=ON"

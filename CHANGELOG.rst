@@ -15,7 +15,7 @@ Changelog for package opw_kinematics
 * Increase version to 0.2.0
 * Add github actions
 * Add code coverage to targets
-* Add cmake_common_scripts
+* Add ros_industrial_cmake_boilerplate
 * Contributors: Levi Armstrong, Matthew Powelson
 
 0.1.0 (2020-02-06)

@@ -2,6 +2,7 @@
 #define OPW_KINEMATICS_IMPL_H
 
 #include <cmath>
+#include <Eigen/Dense>
 
 template <typename T>
 Solutions<T> inverse(const Parameters<T>& params, const Transform<T>& pose) noexcept
@@ -132,69 +133,28 @@ Solutions<T> inverse(const Parameters<T>& params, const Transform<T>& pose) noex
   T theta6_vii = theta6_iii - T(M_PI);
   T theta6_viii = theta6_iv - T(M_PI);
 
-  Solution<T>& out0 = solutions[0];
-  out0[0] = (theta1_i + params.offsets[0]) * params.sign_corrections[0];
-  out0[1] = (theta2_i + params.offsets[1]) * params.sign_corrections[1];
-  out0[2] = (theta3_i + params.offsets[2]) * params.sign_corrections[2];
-  out0[3] = (theta4_i + params.offsets[3]) * params.sign_corrections[3];
-  out0[4] = (theta5_i + params.offsets[4]) * params.sign_corrections[4];
-  out0[5] = (theta6_i + params.offsets[5]) * params.sign_corrections[5];
+  Eigen::Map<const Eigen::Array<T, 6, 1>> offsets(params.offsets.data());
+  Eigen::Array<T, 6, 1> signs;
+  signs[0] = params.sign_corrections[0];
+  signs[1] = params.sign_corrections[1];
+  signs[2] = params.sign_corrections[2];
+  signs[3] = params.sign_corrections[3];
+  signs[4] = params.sign_corrections[4];
+  signs[5] = params.sign_corrections[5];
 
-  Solution<T>& out1 = solutions[1];
-  out1[0] = (theta1_i + params.offsets[0]) * params.sign_corrections[0];
-  out1[1] = (theta2_ii + params.offsets[1]) * params.sign_corrections[1];
-  out1[2] = (theta3_ii + params.offsets[2]) * params.sign_corrections[2];
-  out1[3] = (theta4_ii + params.offsets[3]) * params.sign_corrections[3];
-  out1[4] = (theta5_ii + params.offsets[4]) * params.sign_corrections[4];
-  out1[5] = (theta6_ii + params.offsets[5]) * params.sign_corrections[5];
+  Eigen::Array<T, 6, 8> theta;
+  // clang-format off
+  theta << theta1_i, theta1_i,  theta1_ii,  theta1_ii, theta1_i, theta1_i,  theta1_ii,  theta1_ii,
+           theta2_i, theta2_ii, theta2_iii, theta2_iv, theta2_i, theta2_ii, theta2_iii, theta2_iv,
+           theta3_i, theta3_ii, theta3_iii, theta3_iv, theta3_i, theta3_ii, theta3_iii, theta3_iv,
+           theta4_i, theta4_ii, theta4_iii, theta4_iv, theta4_v, theta4_vi, theta4_vii, theta4_viii,
+           theta5_i, theta5_ii, theta5_iii, theta5_iv, theta5_v, theta5_vi, theta5_vii, theta5_viii,
+           theta6_i, theta6_ii, theta6_iii, theta6_iv, theta6_v, theta6_vi, theta6_vii, theta6_viii;
+  // clang-format on
 
-  Solution<T>& out2 = solutions[2];
-  out2[0] = (theta1_ii + params.offsets[0]) * params.sign_corrections[0];
-  out2[1] = (theta2_iii + params.offsets[1]) * params.sign_corrections[1];
-  out2[2] = (theta3_iii + params.offsets[2]) * params.sign_corrections[2];
-  out2[3] = (theta4_iii + params.offsets[3]) * params.sign_corrections[3];
-  out2[4] = (theta5_iii + params.offsets[4]) * params.sign_corrections[4];
-  out2[5] = (theta6_iii + params.offsets[5]) * params.sign_corrections[5];
-
-  Solution<T>& out3 = solutions[3];
-  out3[0] = (theta1_ii + params.offsets[0]) * params.sign_corrections[0];
-  out3[1] = (theta2_iv + params.offsets[1]) * params.sign_corrections[1];
-  out3[2] = (theta3_iv + params.offsets[2]) * params.sign_corrections[2];
-  out3[3] = (theta4_iv + params.offsets[3]) * params.sign_corrections[3];
-  out3[4] = (theta5_iv + params.offsets[4]) * params.sign_corrections[4];
-  out3[5] = (theta6_iv + params.offsets[5]) * params.sign_corrections[5];
-
-  Solution<T>& out4 = solutions[4];
-  out4[0] = (theta1_i + params.offsets[0]) * params.sign_corrections[0];
-  out4[1] = (theta2_i + params.offsets[1]) * params.sign_corrections[1];
-  out4[2] = (theta3_i + params.offsets[2]) * params.sign_corrections[2];
-  out4[3] = (theta4_v + params.offsets[3]) * params.sign_corrections[3];
-  out4[4] = (theta5_v + params.offsets[4]) * params.sign_corrections[4];
-  out4[5] = (theta6_v + params.offsets[5]) * params.sign_corrections[5];
-
-  Solution<T>& out5 = solutions[5];
-  out5[0] = (theta1_i + params.offsets[0]) * params.sign_corrections[0];
-  out5[1] = (theta2_ii + params.offsets[1]) * params.sign_corrections[1];
-  out5[2] = (theta3_ii + params.offsets[2]) * params.sign_corrections[2];
-  out5[3] = (theta4_vi + params.offsets[3]) * params.sign_corrections[3];
-  out5[4] = (theta5_vi + params.offsets[4]) * params.sign_corrections[4];
-  out5[5] = (theta6_vi + params.offsets[5]) * params.sign_corrections[5];
-
-  Solution<T>& out6 = solutions[6];
-  out6[0] = (theta1_ii + params.offsets[0]) * params.sign_corrections[0];
-  out6[1] = (theta2_iii + params.offsets[1]) * params.sign_corrections[1];
-  out6[2] = (theta3_iii + params.offsets[2]) * params.sign_corrections[2];
-  out6[3] = (theta4_vii + params.offsets[3]) * params.sign_corrections[3];
-  out6[4] = (theta5_vii + params.offsets[4]) * params.sign_corrections[4];
-  out6[5] = (theta6_vii + params.offsets[5]) * params.sign_corrections[5];
-
-  Solution<T>& out7 = solutions[7];
-  out7[0] = (theta1_ii + params.offsets[0]) * params.sign_corrections[0];
-  out7[1] = (theta2_iv + params.offsets[1]) * params.sign_corrections[1];
-  out7[2] = (theta3_iv + params.offsets[2]) * params.sign_corrections[2];
-  out7[3] = (theta4_viii + params.offsets[3]) * params.sign_corrections[3];
-  out7[4] = (theta5_viii + params.offsets[4]) * params.sign_corrections[4];
-  out7[5] = (theta6_viii + params.offsets[5]) * params.sign_corrections[5];
+  // Perform the computation
+  Eigen::Map<Eigen::Array<T, 6, 8>> output(solutions[0].data());
+  output = (theta.colwise() + offsets).colwise() * signs;
 
   return solutions;
 }

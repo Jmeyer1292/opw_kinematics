@@ -2,6 +2,7 @@
 #define OPW_PARAMETERS_H
 
 #include <type_traits>
+#include <array>
 
 namespace opw_kinematics
 {
@@ -11,8 +12,8 @@ struct Parameters
   static_assert(std::is_floating_point<T>::value, "OPW parameters must be templatized with floating point type");
 
   T a1, a2, b, c1, c2, c3, c4;
-  T offsets[6];
-  signed char sign_corrections[6];
+  std::array<T, 6> offsets;
+  std::array<signed char, 6> sign_corrections;
 
   Parameters()
     : a1{ 0 }

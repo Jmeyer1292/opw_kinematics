@@ -6,13 +6,14 @@
 #include "opw_kinematics/opw_utilities.h"  // IWYU pragma: keep
 #include "opw_kinematics/opw_parameters_examples.h"
 
-void printResults(const std::array<double, 6 * 8>& sols)
+void printResults(const opw_kinematics::Solutions<double>& sols)
 {
   std::cout << std::setprecision(5) << std::fixed;
-  for (int i = 0; i < 8; ++i)
+  for (const auto& s : sols)
   {
-    for (int j = 0; j < 6; ++j)
-      std::cout << sols[i * 6 + j] << "   ";
+    for (std::size_t i = 0; i < 6; ++i)
+      std::cout << s[i] << "   ";
+
     std::cout << "\n";
   }
 }
@@ -24,22 +25,21 @@ int main()
   auto pose = opw_kinematics::Transform<double>::Identity();
   pose.translation() = Eigen::Vector3d(0.7, 0.2, 0);
 
-  std::array<double, 6 * 8> sols;
-  opw_kinematics::inverse(abb2400, pose, sols.data());
+  opw_kinematics::Solutions<double> sols = opw_kinematics::inverse(abb2400, pose);
+  opw_kinematics::isValid(sols[0]);
 
-  opw_kinematics::isValid(sols.data());
-
-  for (int i = 0; i < 8; ++i)
+  for (auto& s : sols)
   {
-    opw_kinematics::harmonizeTowardZero(&sols[i * 6]);
+    if (opw_kinematics::isValid(s))
+      opw_kinematics::harmonizeTowardZero(s);
   }
 
   printResults(sols);
 
-  for (int i = 0; i < 8; ++i)
+  for (std::size_t i = 0; i < 8; ++i)
   {
-    std::cout << i << ": " << opw_kinematics::isValid(&sols[i * 6]) << "\n";
-    std::cout << i << ":\n" << opw_kinematics::forward(abb2400, &sols[i * 6]).matrix() << "\n";
+    std::cout << i << ": " << opw_kinematics::isValid(sols[i]) << "\n";
+    std::cout << i << ":\n" << opw_kinematics::forward(abb2400, sols[i]).matrix() << "\n";
   }
 
   return 0;

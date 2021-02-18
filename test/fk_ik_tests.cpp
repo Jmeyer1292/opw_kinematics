@@ -31,6 +31,7 @@ struct TestTolerance<double>
 };
 
 // Helper Functions for generating and testing random poses in cartesian/joint space
+using opw_kinematics::Solutions;
 using opw_kinematics::Transform;
 
 template <typename T>
@@ -55,7 +56,7 @@ void comparePoses(const Transform<T>& Ta, const Transform<T>& Tb, double toleran
 }
 
 template <typename T>
-void getRandomJointValues(T* q)
+void getRandomJointValues(std::array<T, 6>& q)
 {
   static std::default_random_engine en{ 42 };                        // random engine
   static std::uniform_real_distribution<T> rg{ T(-M_PI), T(M_PI) };  // random generator
@@ -76,8 +77,8 @@ void runRandomReachablePosesTest(const opw_kinematics::Parameters<T>& params)
   const static unsigned int number_of_tests = 1000;
 
   Transform<T> pose, forward_pose;
-  T q_rand[6];
-  std::array<T, 6 * 8> sols;
+  std::array<T, 6> q_rand;
+  Solutions<T> sols;
 
   for (unsigned j = 0; j < number_of_tests; ++j)
   {
@@ -86,15 +87,15 @@ void runRandomReachablePosesTest(const opw_kinematics::Parameters<T>& params)
     pose = opw_kinematics::forward(params, q_rand);
 
     // Solve Inverse kinematics
-    opw_kinematics::inverse(params, pose, sols.data());
+    sols = opw_kinematics::inverse(params, pose);
 
     // check all valid solutions using forward kinematics
-    for (unsigned i = 0; i < 8; ++i)
+    for (const auto& s : sols)
     {
-      if (opw_kinematics::isValid(&sols[6 * i]))
+      if (opw_kinematics::isValid(s))
       {
         // Forward kinematics of a solution should result in the same pose
-        forward_pose = opw_kinematics::forward(params, &sols[6 * i]);
+        forward_pose = opw_kinematics::forward(params, s);
         comparePoses(forward_pose, pose, TestTolerance<T>::TOLERANCE);
       }
     }
@@ -118,14 +119,14 @@ void runThroughputTests(const opw_kinematics::Parameters<T>& params)
 
     for (std::size_t i = 0; i < number_of_tests; ++i)
     {
-      getRandomJointValues(random_joint_values[i].data());
+      getRandomJointValues(random_joint_values[i]);
     }
 
     // Time the solving of FK
     const auto fk_start_tm = std::chrono::steady_clock::now();
     for (std::size_t i = 0; i < number_of_tests; ++i)
     {
-      poses[i] = opw_kinematics::forward(params, random_joint_values[i].data());
+      poses[i] = opw_kinematics::forward(params, random_joint_values[i]);
     }
     const auto fk_end_tm = std::chrono::steady_clock::now();
 
@@ -136,11 +137,11 @@ void runThroughputTests(const opw_kinematics::Parameters<T>& params)
     std::cout << "Average us per fk solve: " << static_cast<double>(fk_dt_us) / number_of_tests << "\n";
   }
 
-  std::array<T, 6 * 8> ik_sol_space;
+  Solutions<T> ik_sol_space;
   const auto ik_start_tm = std::chrono::steady_clock::now();
   for (std::size_t i = 0; i < number_of_tests; ++i)
   {
-    opw_kinematics::inverse(params, poses[i], ik_sol_space.data());
+    ik_sol_space = opw_kinematics::inverse(params, poses[i]);
   }
   const auto ik_end_tm = std::chrono::steady_clock::now();
   // Report FK timing

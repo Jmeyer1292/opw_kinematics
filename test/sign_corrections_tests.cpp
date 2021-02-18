@@ -14,6 +14,7 @@ OPW_IGNORE_WARNINGS_POP
 
 const double TOLERANCE = 1e-5;  // absolute tolerance for EXPECT_NEAR checks
 
+using opw_kinematics::Solutions;
 using opw_kinematics::Transform;
 
 /** @brief Compare every element of two eigen Isometry3 poses.
@@ -43,14 +44,14 @@ TEST(kuka_kr6, forward_kinematics)  // NOLINT
 {
   const auto kuka = opw_kinematics::makeKukaKR6_R700_sixx<float>();
 
-  std::vector<float> joint_values = { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f };
-  Transform<float> forward_pose = opw_kinematics::forward(kuka, &joint_values[0]);
+  std::array<float, 6> joint_values = { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f };
+  Transform<float> forward_pose = opw_kinematics::forward(kuka, joint_values);
 
   // Compare with copied results from forward kinematics using MoveIt!
   Transform<float> actual_pose;
-  actual_pose.matrix() << -0.5965795, 0.000371195, 0.8025539, 0, -0.2724458, 0.9405218, -0.202958, 0, -0.7548948,
-      -0.3397331, -0.5609949, 0, 0, 0, 0, 1;
-  actual_pose.translation() << 0.7341169, -0.1520347, 0.182639;
+  actual_pose.matrix() << -0.5965795f, 0.000371195f, 0.8025539f, 0.0f, -0.2724458f, 0.9405218f, -0.202958f, 0.0f,
+      -0.7548948f, -0.3397331f, -0.5609949f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f;
+  actual_pose.translation() << 0.7341169f, -0.1520347f, 0.182639f;
 
   comparePoses(forward_pose, actual_pose);
 }
@@ -62,19 +63,18 @@ TEST(kuka_kr6, inverse_kinematics)  // NOLINT
 
   const auto kuka = opw_kinematics::makeKukaKR6_R700_sixx<float>();
 
-  std::vector<float> joint_values = { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f };
-  Transform<float> forward_pose = opw_kinematics::forward(kuka, &joint_values[0]);
+  std::array<float, 6> joint_values = { 0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f };
+  Transform<float> forward_pose = opw_kinematics::forward(kuka, joint_values);
 
-  std::array<float, 6 * 8> sols;
-  opw_kinematics::inverse(kuka, forward_pose, sols.data());
+  Solutions<float> sols = opw_kinematics::inverse(kuka, forward_pose);
 
   Transform<float> pose;
-  for (int i = 0; i < 8; ++i)
+  for (const auto& s : sols)
   {
-    if (opw_kinematics::isValid(&sols[6 * i]))
+    if (opw_kinematics::isValid(s))
     {
       // Forward kinematics of a solution should result in the same pose
-      pose = opw_kinematics::forward(kuka, &sols[6 * i]);
+      pose = opw_kinematics::forward(kuka, s);
       comparePoses(forward_pose, pose);
     }
   }

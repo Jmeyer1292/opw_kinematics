@@ -11,9 +11,11 @@ OPW_IGNORE_WARNINGS_PUSH
 OPW_IGNORE_WARNINGS_POP
 
 #include "opw_kinematics/opw_kinematics.h"           // IWYU pragma: keep
+#include "opw_kinematics/opw_utilities.h"            // IWYU pragma: keep
 #include "opw_kinematics/opw_parameters_examples.h"  // for makeIrb2400_10
 
 using Transform = opw_kinematics::Transform<double>;
+using Solutions = opw_kinematics::Solutions<double>;
 
 struct PoseGenerator
 {
@@ -57,26 +59,17 @@ void solveIKFast(const Transform& p, ikfast::IkSolutionList<double>& sols)
   ComputeIk(eetrans, eerot, pfree, sols);
 }
 
-void solveOPW(const opw_kinematics::Parameters<double>& param, const Transform& p, std::array<double, 6 * 8>& sols)
+Solutions solveOPW(const opw_kinematics::Parameters<double>& param, const Transform& p)
 {
-  opw_kinematics::inverse(param, p, sols.data());
+  return opw_kinematics::inverse(param, p);
 }
 
-size_t countValidSolutions(const std::array<double, 6 * 8>& opw)
+std::size_t countValidSolutions(const Solutions& opw)
 {
   std::size_t count = 0;
-  for (int i = 0; i < 8; ++i)
+  for (const auto& s : opw)
   {
-    bool is_valid = true;
-    for (int j = 0; j < 6; ++j)
-    {
-      if (std::isnan(opw[i * 6 + j]))
-      {
-        is_valid = false;
-        break;
-      }
-    }
-    if (is_valid)
+    if (opw_kinematics::isValid(s))
       count++;
   }
   return count;
@@ -122,14 +115,14 @@ static inline double normalize_angle(double angle)
 
 static inline double shortest_angular_distance(double from, double to) { return normalize_angle(to - from); }
 
-bool findSolInSet(const std::vector<double>& s, const std::array<double, 6 * 8>& opw)
+bool findSolInSet(const std::array<double, 6>& s, const Solutions& opw)
 {
-  for (int i = 0; i < 8; ++i)
+  for (std::size_t i = 0; i < 8; ++i)
   {
     bool is_same = true;
-    for (int j = 0; j < 6; ++j)
+    for (std::size_t j = 0; j < 6; ++j)
     {
-      double value = opw[i * 6 + j];
+      double value = opw[i][j];
       //      if (value > M_PI) value -= 2*M_PI;
       //      if (value < -M_PI) value += 2*M_PI;
       double diff = std::abs(shortest_angular_distance(s[j], value));
@@ -145,18 +138,18 @@ bool findSolInSet(const std::vector<double>& s, const std::array<double, 6 * 8>&
   return false;
 }
 
-void printResults(const std::array<double, 6 * 8>& sols)
+void printResults(const Solutions& sols)
 {
   std::cout << std::setprecision(5) << std::fixed;
-  for (int i = 0; i < 8; ++i)
+  for (const auto& s : sols)
   {
-    for (int j = 0; j < 6; ++j)
-      std::cout << sols[i * 6 + j] << "   ";
+    for (std::size_t i = 0; i < 6; ++i)
+      std::cout << s[i] << "   ";
     std::cout << "\n";
   }
 }
 
-void compare(ikfast::IkSolutionList<double>& ikf, std::array<double, 6 * 8>& opw)
+void compare(ikfast::IkSolutionList<double>& ikf, Solutions& opw)
 {
   auto num_ikf_sols = ikf.GetNumSolutions();
   auto num_opw_sols = countValidSolutions(opw);
@@ -168,7 +161,7 @@ void compare(ikfast::IkSolutionList<double>& ikf, std::array<double, 6 * 8>& opw
     return;
 
   // lets compare solutions
-  std::vector<double> v(6);
+  std::array<double, 6> v;
   for (decltype(num_ikf_sols) i = 0; i < num_ikf_sols; ++i)
   {
     ikf.GetSolution(i).GetSolution(v.data(), nullptr);
@@ -202,8 +195,7 @@ TEST(ikfast_to_opw, similar_solutions)  // NOLINT
     solveIKFast(p, ikf_sols);
 
     // Solve with OPW
-    std::array<double, 6 * 8> opw_sols;
-    solveOPW(abb2400, p, opw_sols);
+    Solutions opw_sols = solveOPW(abb2400, p);
 
     // Compare
     compare(ikf_sols, opw_sols);

@@ -1,0 +1,55 @@
+name: CodeCov
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    - cron: '0 5 * * *'
+
+jobs:
+  industrial_ci:
+    name: CodeCov
+    runs-on: ubuntu-latest
+    env:
+      CI_NAME: CodeCov
+      OS_NAME: ubuntu
+      OS_CODE_NAME: bionic
+      ROS_DISTRO: melodic
+      ROS_REPO: main
+      ADDITIONAL_DEBS: curl
+      UPSTREAM_WORKSPACE: 'dependencies.rosinstall'
+      ROSDEP_SKIP_KEYS: "iwyu ros_industrial_cmake_boilerplate"
+      CCACHE_DIR: "/home/runner/work/opw_kinematics/opw_kinematics/CodeCov/.ccache"
+      TARGET_CMAKE_ARGS: "-DCMAKE_BUILD_TYPE=Debug -DOPW_ENABLE_CODE_COVERAGE=ON"
+      AFTER_SCRIPT: 'catkin build -w $target_ws --no-deps opw_kinematics --make-args ccov-all
+                     && bash <(curl -s https://codecov.io/bash) -t e964c16f-f94e-4caa-8c82-8a142891a19b -s $target_ws/build -f *all-merged.info'
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Free Disk Space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
+          df -h
+
+      - name: Prepare ccache timestamp
+        id: ccache_cache_timestamp
+        shell: cmake -P {0}
+        run: |
+          string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
+          message("::set-output name=timestamp::${current_date}")
+
+      - name: ccache cache files
+        uses: actions/cache@v1.1.0
+        with:
+          path: ${{ env.CI_NAME }}/.ccache
+          key: ${{ env.CI_NAME }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+          restore-keys: |
+            ${{ env.CI_NAME }}-ccache-
+
+      - uses: 'ros-industrial/industrial_ci@master'
+        env: ${{env}}

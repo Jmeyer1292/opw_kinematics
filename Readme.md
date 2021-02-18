@@ -1,3 +1,7 @@
+[![codecov](https://codecov.io/gh/Levi-Armstrong/opw_kinematics/branch/master/graph/badge.svg)](https://codecov.io/gh/Levi-Armstrong/opw_kinematics)
+
+[![license - apache 2.0](https://img.shields.io/:license-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # Intro
 A simple, analytical inverse kinematic library for industrial robots with parallel bases and
 spherical wrists. Based on the paper `An Analytical Solution of the Inverse Kinematics Problem
@@ -21,6 +25,7 @@ Linux (Bionic)       | [![Build Status](https://github.com/Jmeyer1292/opw_kinema
 Linux (Xenial)       | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/workflows/Xenial-Build/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions)
 Windows              | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/workflows/Windows-Build/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions)
 Lint  (Clang-Format) | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/workflows/Clang-Format/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions)
+Lint  (CodeCov)      | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/workflows/CodeCov/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions)
 
 # Parameters
 

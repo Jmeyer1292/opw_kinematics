@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.4.0 (2021-02-19)
+------------------
 * Vectorize using Eigen::Array and Eigen::Map
 * Add code coverage CI build
 * Clean CMakeLists.txt

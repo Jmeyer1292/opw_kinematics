@@ -58,6 +58,18 @@ Note that the offset of the third joint is -90 degrees, bringing the joint from 
 
 You can find other examples (many un-tested) taken from the source paper in `include/opw_kinematics/opw_parameters_examples.h`.
 
+# Create Debian Package (Linux) or NuGet Package (Windows)
+
+The following process will generate a Debian or NuGet package leveraging cmake and cpack based on the OS.
+
+The package should be located in the current directory.
+
+``` bash
+cd <workspace directory>
+catkin build -DOPW_PACKAGE=ON
+./src/opw_kinematics/.run-cpack
+```
+
 # Example
 
 ```c++

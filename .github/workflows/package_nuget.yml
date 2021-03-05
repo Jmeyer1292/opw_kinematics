@@ -1,0 +1,50 @@
+name: Package-Windows-Build
+
+on:
+  push:
+    tags:
+    - '*'
+
+  # allow manually starting this workflow
+  workflow_dispatch:
+
+jobs:
+  windows_ci:
+    name: Noetic
+    runs-on: windows-latest
+    env:
+      ROS_DISTRO: noetic
+      CPACK_WORKING_DIR: ./../../build_isolated/opw_kinematics/devel
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        path: src/opw_kinematics
+    - name: Build
+      shell: cmd
+      run: |
+        choco sources add -n=roswin -s https://aka.ms/ros/public --priority 1
+        choco install ros-%ROS_DISTRO%-desktop_full -y --no-progress
+
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=amd64 -host_arch=amd64
+        call "C:\opt\ros\%ROS_DISTRO%\x64\setup.bat"
+
+        choco install console_bridge -y --no-progress
+        choco install clapack -y --no-progress
+        choco install openblas -y --no-progress
+        choco install llvm -y --no-progress
+
+        vcs import --input "${{ github.workspace }}/src/opw_kinematics/dependencies.rosinstall" src/
+
+        catkin_make_isolated --cmake-args -DCMAKE_BUILD_TYPE=Release -DOPW_PACKAGE=ON
+
+    - name: NuGet Package
+      shell: bash
+      run: |
+        cd src/opw_kinematics
+        bash .run-cpack
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: nuget_package
+        path: ./src/opw_kinematics/*.nupkg

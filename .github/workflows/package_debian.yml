@@ -33,8 +33,6 @@ jobs:
       - name: Create artifacts directory
         run: |
           mkdir artifacts
-          pwd
-          ls
 
       - name: Free Disk Space
         run: |
@@ -66,3 +64,8 @@ jobs:
         with:
           name: debian_package
           path: /home/runner/work/opw_kinematics/opw_kinematics/artifacts/*.deb
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: archive_package
+          path: /home/runner/work/opw_kinematics/opw_kinematics/artifacts/*.tar.xz

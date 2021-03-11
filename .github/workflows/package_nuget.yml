@@ -48,3 +48,8 @@ jobs:
       with:
         name: nuget_package
         path: ./src/opw_kinematics/*.nupkg
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: archive_package
+        path: ./src/opw_kinematics/*.tar.xz

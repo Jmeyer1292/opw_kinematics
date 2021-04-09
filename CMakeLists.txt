@@ -17,7 +17,7 @@ endif()
 opw_variables()
 
 if(NOT MSVC)
-  initialize_code_coverage()
+  initialize_code_coverage(ENABLE ${OPW_ENABLE_CODE_COVERAGE})
   add_code_coverage_all_targets(ENABLE ${OPW_ENABLE_CODE_COVERAGE})
 endif()
 

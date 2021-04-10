@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.4.1 (2021-04-09)
+------------------
 * Only enable initialize_code_coverage if code coverage is enabled
 * Add cpack archive package
 * Add package debian github action leveraging cpack

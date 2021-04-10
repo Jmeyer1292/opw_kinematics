@@ -2,6 +2,14 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Only enable initialize_code_coverage if code coverage is enabled
+* Add cpack archive package
+* Add package debian github action leveraging cpack
+* Add CONTRIBUTING.md
+* Contributors: Levi Armstrong
+
 0.4.0 (2021-02-19)
 ------------------
 * Vectorize using Eigen::Array and Eigen::Map

@@ -2,6 +2,11 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Do not add compiler option -mno-avx for arm
+* Contributors: Levi Armstrong
+
 0.4.1 (2021-04-09)
 ------------------
 * Only enable initialize_code_coverage if code coverage is enabled

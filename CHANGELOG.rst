@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.4.2 (2021-04-15)
+------------------
 * Do not add compiler option -mno-avx for arm
 * Contributors: Levi Armstrong
 

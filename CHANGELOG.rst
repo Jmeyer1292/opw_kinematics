@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.4.3 (2021-04-23)
+------------------
 * Do not add compiler option -mno-avx if processor is uknown
 * Contributors: Levi Armstrong
 

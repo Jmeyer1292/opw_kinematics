@@ -6,6 +6,7 @@ OPW_IGNORE_WARNINGS_PUSH
 #include <chrono>
 #include <gtest/gtest.h>  // IWYU pragma: keep
 #include <random>
+#include <array>
 OPW_IGNORE_WARNINGS_POP
 
 #include "opw_kinematics/opw_kinematics.h"  // IWYU pragma: keep
@@ -26,7 +27,7 @@ struct TestTolerance<float>
 template <>
 struct TestTolerance<double>
 {
-  static constexpr double TOLERANCE = 1e-10;
+  static constexpr double TOLERANCE = 1e-7;
   static constexpr const char* const NAME = "double";
 };
 
@@ -37,22 +38,11 @@ using opw_kinematics::Transform;
 template <typename T>
 void comparePoses(const Transform<T>& Ta, const Transform<T>& Tb, double tolerance)
 {
-  using Matrix = Eigen::Matrix<T, 3, 3>;
-  using Vector = Eigen::Matrix<T, 3, 1>;
+  T translation_distance = (Ta.translation() - Tb.translation()).norm();
+  T angular_distance = Eigen::Quaternion<T>(Ta.linear()).angularDistance(Eigen::Quaternion<T>(Tb.linear()));
 
-  Matrix Ra = Ta.rotation(), Rb = Tb.rotation();
-  for (int i = 0; i < Ra.rows(); ++i)
-  {
-    for (int j = 0; j < Ra.cols(); ++j)
-    {
-      EXPECT_NEAR(static_cast<double>(Ra(i, j)), static_cast<double>(Rb(i, j)), tolerance);
-    }
-  }
-
-  Vector pa = Ta.translation(), pb = Tb.translation();
-  EXPECT_NEAR(static_cast<double>(pa[0]), static_cast<double>(pb[0]), tolerance);
-  EXPECT_NEAR(static_cast<double>(pa[1]), static_cast<double>(pb[1]), tolerance);
-  EXPECT_NEAR(static_cast<double>(pa[2]), static_cast<double>(pb[2]), tolerance);
+  EXPECT_NEAR(static_cast<double>(translation_distance), 0, tolerance);
+  EXPECT_NEAR(static_cast<double>(angular_distance), 0, tolerance);
 }
 
 template <typename T>
@@ -197,6 +187,116 @@ TEST(abb_2400, throughput_tests_double)  // NOLINT
 {
   const auto params = opw_kinematics::makeIrb2400_10<double>();
   runThroughputTests(params);
+}
+
+TEST(abb_2600, throughput_tests_float)  // NOLINT
+{
+  const auto params = opw_kinematics::makeIrb2600_12_165<float>();
+  runThroughputTests(params);
+}
+
+TEST(abb_2600, random_reachable_poses_double)  // NOLINT
+{
+  const auto params = opw_kinematics::makeIrb2600_12_165<double>();
+  runRandomReachablePosesTest(params);
+}
+
+TEST(abb_2600, random_reachable_poses_float)  // NOLINT
+{
+  const auto params = opw_kinematics::makeIrb2600_12_165<float>();
+  runRandomReachablePosesTest(params);
+}
+
+TEST(abb_2600, throughput_tests_double)  // NOLINT
+{
+  const auto params = opw_kinematics::makeIrb2600_12_165<double>();
+  runThroughputTests(params);
+}
+
+TEST(abb_2600, numerical_issue_double)  // NOLINT
+{
+  const auto params = opw_kinematics::makeIrb2600_12_165<double>();
+  std::array<double, 6> jv{ 0, M_PI_4, 0, 0, 0, 0 };
+  Transform<double> pose = opw_kinematics::forward(params, jv);
+
+  Transform<double> pose2{ Transform<double>::Identity() };
+  pose2(0, 0) = -0.707106781186547;
+  pose2(1, 0) = 0;
+  pose2(2, 0) = -0.707106781186548;
+  pose2(0, 1) = 4.9065389333868E-018;
+  pose2(1, 1) = 1;
+  pose2(2, 1) = -4.9065389333868E-018;
+  pose2(0, 2) = 0.707106781186548;
+  pose2(1, 2) = 0;
+  pose2(2, 2) = -0.707106781186547;
+  pose2(0, 3) = 1.3485459941112;
+  pose2(1, 3) = 0;
+  pose2(2, 3) = 0.399038059222874;
+
+  comparePoses(pose, pose2, TestTolerance<double>::TOLERANCE);
+
+  auto sols = opw_kinematics::inverse(params, pose2);
+  for (const auto& s : sols)
+  {
+    Transform<double> f1 = opw_kinematics::forward(params, s);
+    comparePoses(pose2, f1, TestTolerance<double>::TOLERANCE);
+  }
+}
+
+TEST(abb_2600, numerical_issue2_double)  // NOLINT
+{
+  const auto params = opw_kinematics::makeIrb2600_12_165<double>();
+  std::array<double, 6> jv{ M_PI_4, 0, 0, 0, 0, 0 };
+  Transform<double> pose = opw_kinematics::forward(params, jv);
+
+  Transform<double> pose2{ Transform<double>::Identity() };
+  pose2(0, 0) = 1.5700924586837752e-16;
+  pose2(1, 0) = 1.570092458683775e-16;
+  pose2(2, 0) = -1;
+  pose2(0, 1) = -0.7071067811865475;
+  pose2(1, 1) = 0.7071067811865476;
+  pose2(2, 1) = 0;
+  pose2(0, 2) = 0.7071067811865476;
+  pose2(1, 2) = 0.7071067811865475;
+  pose2(2, 2) = 2.220446049250313e-16;
+  pose2(0, 3) = 0.7283199846221441;
+  pose2(1, 3) = 0.728319984622144;
+  pose2(2, 3) = 1.26;
+
+  comparePoses(pose, pose2, TestTolerance<double>::TOLERANCE);
+
+  auto sols = opw_kinematics::inverse(params, pose2);
+  for (const auto& s : sols)
+  {
+    Transform<double> f1 = opw_kinematics::forward(params, s);
+    comparePoses(pose2, f1, TestTolerance<double>::TOLERANCE);
+  }
+}
+
+TEST(abb_4600, numerical_issue_double)  // NOLINT
+{
+  const auto params = opw_kinematics::makeIrb4600_60_205<double>();
+
+  Transform<double> pose2{ Transform<double>::Identity() };
+  pose2(0, 0) = 3.46244636694609e-12;
+  pose2(1, 0) = 3.46244625852587e-12;
+  pose2(2, 0) = -1;
+  pose2(0, 1) = -0.707106781186547;
+  pose2(1, 1) = 0.707106781186547;
+  pose2(2, 1) = 0;
+  pose2(0, 2) = 0.707106781186547;
+  pose2(1, 2) = 0.707106781186547;
+  pose2(2, 2) = 4.89663875852947e-12;
+  pose2(0, 3) = 0.898025612106916;
+  pose2(1, 3) = 0.898025612106915;
+  pose2(2, 3) = 1.57;
+
+  auto sols = opw_kinematics::inverse(params, pose2);
+  for (const auto& s : sols)
+  {
+    Transform<double> f1 = opw_kinematics::forward(params, s);
+    comparePoses(pose2, f1, TestTolerance<double>::TOLERANCE);
+  }
 }
 
 OPW_IGNORE_WARNINGS_PUSH

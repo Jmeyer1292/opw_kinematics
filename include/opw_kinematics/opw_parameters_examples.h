@@ -81,6 +81,44 @@ Parameters<T> makeStaubliTX40()
   return p;
 }
 
+template <typename T>
+DEPRECATED("UN-TESTED")
+Parameters<T> makeIrb2600_12_165()
+{
+  Parameters<T> p;
+  p.a1 = T(0.150);
+  p.a2 = T(-0.115);
+  p.b = T(0.000);
+  p.c1 = T(0.445);
+  p.c2 = T(0.700);
+  p.c3 = T(0.795);
+  p.c4 = T(0.085);
+
+  // WARNING: This is a guess! I don't know the offets.
+  p.offsets[2] = static_cast<T>(-M_PI / 2.0);
+
+  return p;
+}
+
+template <typename T>
+DEPRECATED("UN-TESTED")
+Parameters<T> makeIrb4600_60_205()
+{
+  Parameters<T> p;
+  p.a1 = T(0.175);
+  p.a2 = T(-0.175);
+  p.b = T(0.000);
+  p.c1 = T(0.495);
+  p.c2 = T(0.9);
+  p.c3 = T(0.96);
+  p.c4 = T(0.135);
+
+  // WARNING: This is a guess! I don't know the offets.
+  p.offsets[2] = static_cast<T>(-M_PI / 2.0);
+
+  return p;
+}
+
 }  // namespace opw_kinematics
 
 #endif  // OPW_PARAMETER_EXAMPLES_H

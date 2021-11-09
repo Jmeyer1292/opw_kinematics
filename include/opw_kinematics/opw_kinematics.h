@@ -32,7 +32,7 @@ using Solutions = std::array<std::array<T, 6>, 8>;
  *         ALL 8 SOLUTIONS ARE ALWAYS WRITTEN, EVEN IF THEY CONTAIN NANS.
  *         You must check in a subsequent call if you have a solution. The plus
  *         side is that the first solution should be from the same
- *         configuraton each time.
+ *         configuration each time.
  */
 template <typename T>
 Solutions<T> inverse(const Parameters<T>& params, const Transform<T>& pose) noexcept;
@@ -47,8 +47,8 @@ Solutions<T> inverse(const Parameters<T>& params, const Transform<T>& pose) noex
 template <typename T>
 Transform<T> forward(const Parameters<T>& p, const std::array<T, 6>& qs) noexcept;
 
-#include "opw_kinematics/opw_kinematics_impl.h"  // IWYU pragma: export
-
 }  // end namespace opw_kinematics
+
+#include "opw_kinematics/opw_kinematics_impl.h"  // IWYU pragma: export
 
 #endif  // OPW_KINEMATICS_H

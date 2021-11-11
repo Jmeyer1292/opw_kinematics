@@ -2,6 +2,11 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix numerical issue in inverse function
+* Contributors: Levi-Armstrong
+
 0.4.3 (2021-04-23)
 ------------------
 * Do not add compiler option -mno-avx if processor is uknown

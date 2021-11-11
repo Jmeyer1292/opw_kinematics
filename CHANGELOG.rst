@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.4.4 (2021-11-11)
+------------------
 * Fix numerical issue in inverse function
 * Contributors: Levi-Armstrong
 

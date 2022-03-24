@@ -2,6 +2,11 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Upgrade to latest cmake boilerplate and add cmake formater
+* Contributors: Levi Armstrong
+
 0.4.4 (2021-11-11)
 ------------------
 * Fix numerical issue in inverse function

@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.4.5 (2022-03-24)
+------------------
 * Upgrade to latest cmake boilerplate and add cmake formater
 * Contributors: Levi Armstrong
 

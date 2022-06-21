@@ -20,12 +20,12 @@ and a set of joint-zero offsets. Given this structure, no other setup is require
 
 Platform             | CI Status
 ---------------------|:---------
-Linux (Focal)        | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/Focal-Build/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/focal_build.yml)
-Linux (Bionic)       | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/Bionic-Build/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/bionic_build.yml)
-Linux (Xenial)       | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/Xenial-Build/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/xenial_build.yml)
-Windows              | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/windows_2019.yml/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/windows_2019.yml)
-Lint  (Clang-Format) | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/Clang-Format/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/clang_format.yml)
-Lint  (CodeCov)      | [![Build Status](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/CodeCov/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/codecov.yml)
+Linux (Focal)        | [![Focal-Build](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/focal_build.yml/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/focal_build.yml)
+Linux (Bionic)       | [![Bionic-Build](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/bionic_build.yml/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/bionic_build.yml)
+Linux (Xenial)       | [![Xenial-Build](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/xenial_build.yml/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/xenial_build.yml)
+Windows              | [![Windows-2019](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/windows_2019.yml/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/windows_2019.yml)
+Lint  (Clang-Format) | [![Clang-Format](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/clang_format.yml/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/clang_format.yml)
+Lint  (CodeCov)      | [![CodeCov](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/codecov.yml/badge.svg)](https://github.com/Jmeyer1292/opw_kinematics/actions/workflows/codecov.yml)
 
 # Parameters
 

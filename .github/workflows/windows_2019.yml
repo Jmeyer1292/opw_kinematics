@@ -63,7 +63,7 @@ jobs:
       working-directory: workspace
       shell: cmd
       run: |
-        vcs import --input "${{ github.workspace }}/workspace/src/opw_kinematics/dependencies.repos" src/
+        vcs import --input "${{ github.workspace }}/workspace/src/opw_kinematics/dependencies.rosinstall" src/
         colcon build --event-handlers console_direct+ --cmake-args -G "Ninja" -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
         if %ERRORLEVEL% GEQ 1 exit 1
 

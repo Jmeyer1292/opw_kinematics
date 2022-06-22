@@ -71,23 +71,13 @@ if(OPW_ENABLE_TESTING)
 endif()
 
 if(OPW_PACKAGE)
-  set(CPACK_PACKAGE_VENDOR "ROS-Industrial")
-  set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_LIST_DIR}/LICENSE)
-  set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_LIST_DIR}/Readme.md)
-  if(UNIX)
-    set(CPACK_GENERATOR "DEB;TXZ")
-    set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}_${CMAKE_SYSTEM_PROCESSOR}_linux_${pkg_extracted_version}")
-    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
-    set(CPACK_DEBIAN_PACKAGE_MAINTAINER <https://github.com/Jmeyer1292/opw_kinematics>)
-    set(CPACK_DEBIAN_PACKAGE_DESCRIPTION ${pkg_extracted_description})
-    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS=ON)
-    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libeigen3-dev")
-  elseif(WIN32)
-    set(CPACK_GENERATOR "NuGet;TXZ")
-    set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}_${CMAKE_SYSTEM_PROCESSOR}_windows_${pkg_extracted_version}")
-    set(CPACK_NUGET_PACKAGE_NAME "${PROJECT_NAME}_${CMAKE_SYSTEM_PROCESSOR}_windows")
-    set(CPACK_NUGET_PACKAGE_DESCRIPTION ${pkg_extracted_description})
-    set(CPACK_NUGET_PACKAGE_DEPENDENCIES "Eigen")
-  endif()
-  include(CPack)
+  cpack(
+    VERSION ${pkg_extracted_version}
+    MAINTAINER <https://github.com/Jmeyer1292/opw_kinematics>
+    VENDOR "ROS-Industrial"
+    DESCRIPTION "${PROJECT_NAME}"
+    LICENSE_FILE ${CMAKE_CURRENT_LIST_DIR}/LICENSE
+    README_FILE ${CMAKE_CURRENT_LIST_DIR}/Readme.md
+    LINUX_DEPENDS "libeigen3-dev"
+    WINDOWS_DEPENDS "Eigen")
 endif()

@@ -72,12 +72,20 @@ endif()
 
 if(OPW_PACKAGE)
   cpack(
-    VERSION ${pkg_extracted_version}
-    MAINTAINER <https://github.com/Jmeyer1292/opw_kinematics>
-    VENDOR "ROS-Industrial"
-    DESCRIPTION "${PROJECT_NAME}"
-    LICENSE_FILE ${CMAKE_CURRENT_LIST_DIR}/LICENSE
-    README_FILE ${CMAKE_CURRENT_LIST_DIR}/Readme.md
-    LINUX_DEPENDS "libeigen3-dev"
-    WINDOWS_DEPENDS "Eigen")
+    VERSION
+    ${pkg_extracted_version}
+    MAINTAINER
+    <https://github.com/Jmeyer1292/opw_kinematics>
+    VENDOR
+    "ROS-Industrial"
+    DESCRIPTION
+    "${PROJECT_NAME}"
+    LICENSE_FILE
+    ${CMAKE_CURRENT_LIST_DIR}/LICENSE
+    README_FILE
+    ${CMAKE_CURRENT_LIST_DIR}/Readme.md
+    LINUX_DEPENDS
+    "libeigen3-dev"
+    WINDOWS_DEPENDS
+    "Eigen")
 endif()

@@ -1,48 +1,4 @@
-find_package(GTest QUIET)
-if(NOT ${GTest_FOUND})
-  include(ExternalProject)
-
-  ExternalProject_Add(
-    GTest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG release-1.8.1
-    SOURCE_DIR ${CMAKE_BINARY_DIR}/../${PROJECT_NAME}-googletest-src
-    BINARY_DIR ${CMAKE_BINARY_DIR}/../${PROJECT_NAME}-googletest-build
-    CMAKE_CACHE_ARGS
-      -DCMAKE_INSTALL_PREFIX:STRING=${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}
-      -DCMAKE_BUILD_TYPE:STRING=Release
-      -DBUILD_GMOCK:BOOL=OFF
-      -DBUILD_GTEST:BOOL=ON
-      -DBUILD_SHARED_LIBS:BOOL=ON
-      -DGTEST_CREATE_SHARED_LIBRARY=1)
-
-  file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/include)
-  set(GTEST_INCLUDE_DIRS ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/include)
-  if(MSVC)
-    set(GTEST_LIBRARIES ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/bin/libgtest.dll)
-    set(GTEST_MAIN_LIBRARIES ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/bin/libgtest_main.dll)
-  else()
-    set(GTEST_LIBRARIES ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/lib/libgtest.so)
-    set(GTEST_MAIN_LIBRARIES ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/lib/libgtest_main.so)
-  endif()
-endif()
-
-if(NOT TARGET GTest::GTest)
-  find_package(Threads QUIET)
-
-  add_library(GTest::GTest INTERFACE IMPORTED)
-  set_target_properties(GTest::GTest PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${GTEST_INCLUDE_DIRS}")
-  if(TARGET Threads::Threads)
-    set_target_properties(GTest::GTest PROPERTIES INTERFACE_LINK_LIBRARIES "${GTEST_LIBRARIES};Threads::Threads")
-  else()
-    set_target_properties(GTest::GTest PROPERTIES INTERFACE_LINK_LIBRARIES "${GTEST_LIBRARIES}")
-  endif()
-endif()
-
-if(NOT TARGET GTest::Main)
-  add_library(GTest::Main INTERFACE IMPORTED)
-  set_target_properties(GTest::Main PROPERTIES INTERFACE_LINK_LIBRARIES "${GTEST_MAIN_LIBRARIES};GTest::GTest")
-endif()
+find_gtest()
 
 macro(opw_add_test name)
   target_cxx_version(${name} PUBLIC VERSION ${OPW_CXX_VERSION})

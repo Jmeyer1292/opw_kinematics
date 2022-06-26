@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.4.6 (2022-06-26)
+------------------
 * Update cpack CI to use colcon
 * Use find_gtest macro
 * Updated CPack

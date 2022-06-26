@@ -2,6 +2,15 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update cpack CI to use colcon
+* Use find_gtest macro
+* Updated CPack
+* Fix windows CI branch
+* Update windows CI (`#64 <https://github.com/Jmeyer1292/opw_kinematics/issues/64>`_)
+* Contributors: Levi Armstrong, Michael Ripperger
+
 0.4.5 (2022-03-24)
 ------------------
 * Upgrade to latest cmake boilerplate and add cmake formater

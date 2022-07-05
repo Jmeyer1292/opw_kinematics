@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.0 (2022-07-05)
+------------------
 * remove xenial CI build
 * Update to ros_industrial_cmake_boilerplate 0.3.0
 * Contributors: Levi Armstrong

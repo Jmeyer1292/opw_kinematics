@@ -46,7 +46,11 @@ target_compile_options(${PROJECT_NAME}_node PRIVATE ${OPW_COMPILE_OPTIONS_PRIVAT
 target_clang_tidy(${PROJECT_NAME}_node ENABLE ${OPW_ENABLE_CLANG_TIDY})
 target_include_what_you_use(${PROJECT_NAME}_node ENABLE ${OPW_ENABLE_TESTING} ARGUMENTS ${DEFAULT_IWYU_ARGS})
 target_cppcheck(${PROJECT_NAME}_node ENABLE ${OPW_ENABLE_TESTING} ARGUMENTS ${DEFAULT_CPPCHECK_ARGS})
-target_code_coverage(${PROJECT_NAME}_node ALL ENABLE ${OPW_ENABLE_CODE_COVERAGE})
+target_code_coverage(
+  ${PROJECT_NAME}_node
+  PRIVATE
+  ALL
+  ENABLE ${OPW_ENABLE_CODE_COVERAGE})
 
 # Install
 configure_package(NAMESPACE opw_kinematics TARGETS ${PROJECT_NAME} DEPENDENCIES Eigen3)

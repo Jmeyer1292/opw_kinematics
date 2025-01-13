@@ -78,12 +78,12 @@ jobs:
         cp ./*.nupkg ${{ github.workspace }}/artifacts
         cp ./*.tar.xz ${{ github.workspace }}/artifacts
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: nuget_package
         path: ${{ github.workspace }}/artifacts/*.nupkg
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: archive_package
         path: ${{ github.workspace }}/artifacts/*.tar.xz

@@ -2,8 +2,6 @@ name: Package-Debian-Build
 
 on:
   push:
-    tags:
-      - '*'
 
   # allow manually starting this workflow
   workflow_dispatch:
@@ -27,7 +25,6 @@ jobs:
           pwd
           sudo apt update -q
           sudo apt install -q -y clang-tidy python3 python3-pip
-          sudo pip3 install -q --upgrade pip
           sudo pip3 install -q colcon-common-extensions rosdep vcstool
           sudo rosdep init -q
           rosdep update -q

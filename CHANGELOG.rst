@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.1 (2025-01-14)
+------------------
 * Update ricb version to 0.7.1
 * Add script to run cpack
 * Fix cpack CI build

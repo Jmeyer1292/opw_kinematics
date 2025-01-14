@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>opw_kinematics</name>
-  <version>0.5.0</version>
+  <version>0.5.1</version>
   <description>
     A simple, analytical inverse kinematic library for industrial robots with parallel bases and
     spherical wrists. Based on the paper "An Analytical Solution of the Inverse Kinematics Problem

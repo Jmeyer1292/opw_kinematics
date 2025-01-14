@@ -2,6 +2,17 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update ricb version to 0.7.1
+* Add script to run cpack
+* Fix cpack CI build
+* Update packaging CI pipelines
+* Fix deprecated exec_program command
+* Remove deprecated AnalyzeTemporaryDtors
+  See https://github.com/llvm/llvm-project/issues/62020
+* Contributors: Levi Armstrong, Roelof, Roelof Oomen
+
 0.5.0 (2022-07-05)
 ------------------
 * remove xenial CI build

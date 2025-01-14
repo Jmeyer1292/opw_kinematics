@@ -10,48 +10,56 @@ on:
 
 jobs:
   Debian:
-    name: Noetic
+    name: ${{ matrix.distro }}
     runs-on: ubuntu-latest
+    container:
+      image: ubuntu:${{ matrix.distro }}
+      env:
+        DEBIAN_FRONTEND: noninteractive
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: [focal, jammy, noble]
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          path: workspace/src/opw_kinematics
+          path: target_ws/src
+
+      - name: Install dependencies
+        run: |
+          apt update -q
+          apt install -q -y clang-tidy
+
+      - name: Build and test
+        uses: tesseract-robotics/colcon-action@v9
+        with:
+          ccache-enabled: false
+          add-ros-ppa: true
+          rosdep-enabled: true
+          vcs-file: dependencies.rosinstall
+          target-path: target_ws/src
+          target-args: --cmake-args -DCMAKE_BUILD_TYPE=Release -DOPW_PACKAGE=ON
+          run-tests: false
 
       - name: Create artifacts directory
         run: |
-          mkdir artifacts
-
-      - name: Install dependencies
-        working-directory: workspace
-        run: |
-          pwd
-          sudo apt update -q
-          sudo apt install -q -y clang-tidy python3 python3-pip
-          sudo pip3 install -q colcon-common-extensions rosdep vcstool
-          sudo rosdep init -q
-          rosdep update -q
-          vcs import --input "${{ github.workspace }}/workspace/src/opw_kinematics/dependencies.rosinstall" src/
-          rosdep install --from-paths src --ignore-src -r -y -q
-
-      - name: Build
-        working-directory: workspace
-        run: |
-          colcon build --event-handlers console_direct+ --cmake-args -DCMAKE_BUILD_TYPE=Release -DOPW_PACKAGE=ON
-          if [ $? -ne 0 ]; then exit 1; fi
+          mkdir $GITHUB_WORKSPACE/artifacts
 
       - name: Package
-        working-directory: workspace/build/opw_kinematics
+        working-directory: target_ws/build/opw_kinematics
+        shell: bash
         run: |
           cpack --config CPackConfig.cmake
-          cp ./*.deb ${{ github.workspace }}/artifacts
-          cp ./*.tar.xz ${{ github.workspace }}/artifacts
+          cp ./*.deb $GITHUB_WORKSPACE/artifacts
+          cp ./*.tar.xz $GITHUB_WORKSPACE/artifacts
 
       - uses: actions/upload-artifact@v4
         with:
-          name: debian_package
+          name: debian_package_${{ matrix.distro }}
           path: ${{ github.workspace }}/artifacts/*.deb
 
       - uses: actions/upload-artifact@v4
         with:
-          name: archive_package
+          name: archive_package_${{ matrix.distro }}
           path: ${{ github.workspace }}/artifacts/*.tar.xz

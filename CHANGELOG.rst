@@ -2,6 +2,11 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update debian for all distros
+* Contributors: Levi Armstrong
+
 0.5.1 (2025-01-14)
 ------------------
 * Update ricb version to 0.7.1

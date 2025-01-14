@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.2 (2025-01-14)
+------------------
 * Update debian for all distros
 * Contributors: Levi Armstrong
 

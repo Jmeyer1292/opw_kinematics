@@ -21,7 +21,7 @@ jobs:
       UPSTREAM_WORKSPACE: 'dependencies.rosinstall'
       ROSDEP_SKIP_KEYS: "iwyu ros_industrial_cmake_boilerplate"
       CCACHE_DIR: "/home/runner/work/opw_kinematics/opw_kinematics/Bionic-Build/.ccache"
-      TARGET_CMAKE_ARGS: "-DCMAKE_BUILD_TYPE=Debug -DOPW_ENABLE_TESTING=ON"
+      TARGET_CMAKE_ARGS: "-DCMAKE_BUILD_TYPE=Debug -DOPW_ENABLE_TESTING=ON -DOPW_PACKAGE=ON"
       AFTER_SCRIPT: 'catkin build -w $target_ws --no-deps --verbose opw_kinematics --make-args test'
     steps:
       - uses: actions/checkout@v2

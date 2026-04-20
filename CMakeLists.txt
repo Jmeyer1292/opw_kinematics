@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 3.5.0..3.99)
 
 # Extract package name and version
 find_package(ros_industrial_cmake_boilerplate REQUIRED)
@@ -24,7 +24,7 @@ endif()
 # Create interface target
 add_library(${PROJECT_NAME} INTERFACE)
 target_compile_definitions(${PROJECT_NAME} INTERFACE ${OPW_COMPILE_DEFINITIONS})
-target_link_libraries(${PROJECT_NAME} INTERFACE)
+target_link_libraries(${PROJECT_NAME} INTERFACE Eigen3::Eigen)
 target_cxx_version(${PROJECT_NAME} INTERFACE VERSION ${OPW_CXX_VERSION})
 target_compile_options(${PROJECT_NAME} INTERFACE ${OPW_COMPILE_OPTIONS_PUBLIC})
 target_clang_tidy(${PROJECT_NAME} ENABLE ${OPW_ENABLE_CLANG_TIDY} ARGUMENTS ${OPW_CLANG_TIDY_ARGS})

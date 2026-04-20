@@ -2,6 +2,12 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix build issues with newer cmake versions
+* Enable package build in CI
+* Contributors: John Wason, Levi Armstrong
+
 0.5.2 (2025-01-14)
 ------------------
 * Update debian for all distros

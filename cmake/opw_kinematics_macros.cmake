@@ -70,7 +70,7 @@ macro(opw_variables)
              "unknown")
         set(OPW_COMPILE_OPTIONS_PUBLIC -mno-avx)
       endif()
-    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*")
       set(OPW_COMPILE_OPTIONS_PRIVATE
           -Wall
           -Wextra
@@ -107,7 +107,7 @@ macro(opw_variables)
              "unknown")
         set(OPW_COMPILE_OPTIONS_PUBLIC -mno-avx)
       endif()
-    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*")
       set(OPW_COMPILE_OPTIONS_PRIVATE
           -Werror=all
           -Werror=extra

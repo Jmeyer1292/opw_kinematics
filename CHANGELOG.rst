@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.5 (2026-06-15)
+------------------
 * Update action versions to the latest
 * Remove -mno-avx gcc compiler flag
 * Contributors: Levi Armstrong

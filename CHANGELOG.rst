@@ -2,8 +2,8 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.4 (2026-06-15)
+------------------
 * Fix cmake AppleClang detection
 * Contributors: John Wason
 

@@ -17,12 +17,12 @@ jobs:
     name: Windows-2019
     runs-on: windows-2019
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         path: workspace/src/opw_kinematics
 
     - name: checkout-vcpkg
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         path: vcpkg
         repository: microsoft/vcpkg
@@ -55,7 +55,7 @@ jobs:
         vcpkg install --triplet x64-windows ${{ env.VCPKG_PKGS }}
 
     - name: configure-msvc
-      uses: ilammy/msvc-dev-cmd@v1
+      uses: ilammy/msvc-dev-cmd@v2
       with:
         arch: x64
 

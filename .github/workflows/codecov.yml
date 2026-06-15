@@ -15,8 +15,8 @@ jobs:
     env:
       CI_NAME: CodeCov
       OS_NAME: ubuntu
-      OS_CODE_NAME: bionic
-      ROS_DISTRO: melodic
+      OS_CODE_NAME: focal
+      ROS_DISTRO: noetic
       ROS_REPO: main
       ADDITIONAL_DEBS: curl
       UPSTREAM_WORKSPACE: 'dependencies.rosinstall'
@@ -26,7 +26,7 @@ jobs:
       AFTER_SCRIPT: 'catkin build -w $target_ws --no-deps opw_kinematics --make-args ccov-all
                      && bash <(curl -s https://codecov.io/bash) -t e964c16f-f94e-4caa-8c82-8a142891a19b -s $target_ws/build -f *all-merged.info'
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
 
       - name: Free Disk Space
         run: |
@@ -44,7 +44,7 @@ jobs:
           message("::set-output name=timestamp::${current_date}")
 
       - name: ccache cache files
-        uses: actions/cache@v1.1.0
+        uses: actions/cache@v4
         with:
           path: ${{ env.CI_NAME }}/.ccache
           key: ${{ env.CI_NAME }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}

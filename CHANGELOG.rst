@@ -2,6 +2,12 @@
 Changelog for package opw_kinematics
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update action versions to the latest
+* Remove -mno-avx gcc compiler flag
+* Contributors: Levi Armstrong
+
 0.5.4 (2026-06-15)
 ------------------
 * Fix cmake AppleClang detection
